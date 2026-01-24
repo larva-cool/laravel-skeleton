@@ -12,3 +12,11 @@ master:
             username: ${GITHUB_USERNAME}
             password: ${GITHUB_ACCESS_TOKEN}
             push_tags: true
+        - name: sync to codeup
+          image: tencentcom/git-sync
+          settings:
+            target_url: https://codeup.aliyun.com/xutongle/larva-cool/laravel-skeleton.git
+            auth_type: https
+            username: ${CODEUP_USERNAME}
+            password: ${CODEUP_PASSWORD}
+            push_tags: true
