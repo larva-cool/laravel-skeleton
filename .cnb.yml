@@ -12,3 +12,17 @@ $:
           image: cnbcool/codewiki:latest
           settings:
             git_doc_dir: /data/codewiki/${CNB_REPO_SLUG}
+
+main:
+  push:
+    - imports:
+        # 引用密钥仓库中的特定文件
+        - https://cnb.cool/larva-cool/secret/-/blob/main/github.yml
+      stages:
+        - name: sync to github
+          image: tencentcom/git-sync
+          settings:
+            target_url: https://github.com/larva-cool/laravel-skeleton.git
+            auth_type: https
+            username: ${GITHUB_USERNAME}
+            password: ${GITHUB_ACCESS_TOKEN}
