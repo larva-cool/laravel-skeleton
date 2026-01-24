@@ -1,59 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel API 模板
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+这是一个基于 Laravel 12.x 的 API 模板，采用 DDD 结构，内置 Sanctum 授权机制和用户系统，适合快速构建后端 API 服务。
 
-## About Laravel
+## 系统要求
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP >= 8.2
+- MySQL >= 8.0
+- Redis >= 6.0
+- Composer >= 2.0
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 特点
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 架构设计
+- 采用 DDD（领域驱动设计）架构
+- 遵循 Laravel 最佳实践
+- 高度完善的控制器、模型、模块模板
+- 内置模型通用高阶 Traits 封装
+- 自动注册 Policies
 
-## Learning Laravel
+### 功能特性
+- 完整的用户认证系统（基于 Laravel Sanctum）
+- 强大的用户系统（包含用户组、用户资料、积分系统等）
+- 社交功能支持（关注、点赞、评论）
+- 文件管理系统
+- 验证系统（邮件验证码、手机验证码）
+- 多语言支持（zh_CN、en）
+- 后台管理基础框架
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 开发工具
+- Laravel Telescope（调试和监控）
+- Laravel Pulse（性能监控）
+- Laravel Pint（代码风格检查）
+- PHPUnit（单元测试）
+- Laravel Sail（Docker 开发环境）
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 安装
 
-## Laravel Sponsors
+### 1. 创建项目
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer create-project larva/laravel-skeleton:dev-master -vv
+```
 
-### Premium Partners
+### 2. 环境配置
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+# 创建配置文件
+cp .env.develop .env
 
-## Contributing
+# 生成应用密钥
+php artisan key:generate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 配置数据库等相关信息
+vim .env
+```
 
-## Code of Conduct
+### 3. 安装依赖与初始化
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+# 安装 Composer 依赖
+composer install
 
-## Security Vulnerabilities
+# 安装 NPM 依赖（如果需要前端资源）
+npm install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 运行数据库迁移和填充数据
+php artisan migrate --seed
 
-## License
+# 创建存储软链接
+php artisan storage:link
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 目录结构
+
+```
+app/
+├── Events/          # 事件类
+├── Exceptions/      # 异常处理类
+├── Http/           
+│   ├── Controllers/ # 控制器
+│   ├── Middleware/  # 中间件
+│   ├── Requests/    # 表单请求验证
+│   └── Resources/   # API 资源
+├── Models/          # 数据模型
+│   └── Traits/      # 模型 Traits
+├── Policies/        # 授权策略
+├── Providers/       # 服务提供者
+├── Services/        # 服务层
+└── Support/         # 辅助功能
+```
+
+## 核心功能
+
+### 用户系统
+- 用户注册、登录、找回密码
+- 用户组管理
+- 用户资料管理
+- 积分系统
+- 社交功能（关注、点赞、评论）
+
+### 认证授权
+- 基于 Sanctum 的 API 认证
+- 完整的授权策略（Policies）
+- 角色权限管理
+
+### 系统功能
+- 文件上传和管理
+- 验证码系统（邮件、短信）
+- 系统设置
+- 多语言支持
+
+## 开发工具使用
+
+### 代码规范检查
+```bash
+./vendor/bin/pint --test
+```
+
+### 运行测试
+```bash
+./vendor/bin/phpunit
+```
+
+### 使用 Sail（Docker）
+```bash
+# 启动开发环境
+./vendor/bin/sail up -d
+
+# 运行命令（例如：artisan）
+./vendor/bin/sail artisan
+```
+
+## 监控与调试
+
+### Telescope
+- 访问路径：`/telescope`
+- 用途：查看请求、命令、队列等调试信息
+- 仅在开发环境中启用
+
+### Pulse
+- 访问路径：`/pulse`
+- 用途：实时监控应用性能、服务器状态
+- 可配置在生产环境使用
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request。
+
+## 许可证
+
+本项目基于 MIT 协议开源。
