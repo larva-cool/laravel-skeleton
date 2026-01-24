@@ -2,7 +2,7 @@ master:
   push:
     - imports:
         # 引用密钥仓库中的特定文件
-        - https://cnb.cool/larva-cool/secret/-/blob/main/github.yml
+        - https://cnb.cool/larva-cool/secret/-/blob/main/git.yml
       stages:
         - name: sync to github
           image: tencentcom/git-sync
