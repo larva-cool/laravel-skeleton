@@ -1,5 +1,7 @@
 # Laravel API 模板
 
+[![Tests](https://github.com/larva-cool/laravel-skeleton/actions/workflows/tests.yml/badge.svg)](https://github.com/larva-cool/laravel-skeleton/actions/workflows/tests.yml)
+
 这是一个基于 Laravel 12.x 的 API 模板，采用 DDD 结构，内置 Sanctum 授权机制和用户系统，适合快速构建后端 API 服务。
 
 ## 系统要求
