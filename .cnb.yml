@@ -12,7 +12,6 @@ $:
           image: cnbcool/codewiki:latest
           settings:
             git_doc_dir: /data/codewiki/${CNB_REPO_SLUG}
-
 main:
   push:
     - imports:
