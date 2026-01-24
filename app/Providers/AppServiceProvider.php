@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is NOT a freeware, use is subject to license terms.
  */
@@ -9,6 +10,11 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * 应用服务
+ *
+ * @author Tongle Xu <xutongle@msn.com>
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -16,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // 注册系统设置服务
+        $this->app->singleton(\App\Services\SettingManagerService::class, function () {
+            return new \App\Services\SettingManagerService;
+        });
+        // 注册文件服务
+        $this->app->singleton(\App\Services\FileService::class, function () {
+            return new \App\Services\FileService;
+        });
         //
     }
 
@@ -24,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Carbon::setLocale('zh');
+        \Illuminate\Http\Resources\Json\JsonResource::withoutWrapping();
+        \Illuminate\Database\Eloquent\Model::shouldBeStrict(! $this->app->isProduction());
     }
 }
