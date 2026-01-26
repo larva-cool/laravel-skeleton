@@ -3,6 +3,8 @@
 [![Tests](https://github.com/larva-cool/laravel-skeleton/actions/workflows/tests.yml/badge.svg)](https://github.com/larva-cool/laravel-skeleton/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/larva/laravel-skeleton)](https://packagist.org/packages/larva/laravel-skeleton)
 [![Latest Stable Version](https://img.shields.io/packagist/v/larva/laravel-skeleton)](https://packagist.org/packages/larva/laravel-skeleton)
+![badge](https://cnb.cool/larva-cool/laravel-skeleton/-/badge/git/latest/code/vscode-started)
+![badge](https://cnb.cool/larva-cool/laravel-skeleton/-/badge/git/latest/ci/pipeline-as-code)
 
 这是一个基于 Laravel 12.x 的 API 模板，采用 DDD 结构，内置 Sanctum 授权机制和用户系统，适合快速构建后端 API 服务。
 
