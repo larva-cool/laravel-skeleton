@@ -27,7 +27,7 @@ class SmsCaptchaSendCheckRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试构造函数')]
-    public function test_constructor()
+    public function testConstructor()
     {
         $clientIp = '127.0.0.1';
 
@@ -43,7 +43,7 @@ class SmsCaptchaSendCheckRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 测试环境')]
-    public function test_validate_in_testing_environment()
+    public function testValidateInTestingEnvironment()
     {
         $clientIp = '127.0.0.1';
         $phone = '13800138000';
@@ -77,7 +77,7 @@ class SmsCaptchaSendCheckRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - IP 发送数量超过限制')]
-    public function test_validate_ip_send_count_exceeded()
+    public function testValidateIpSendCountExceeded()
     {
         $clientIp = '127.0.0.1';
         $phone = '13800138000';
@@ -112,7 +112,7 @@ class SmsCaptchaSendCheckRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 手机号发送数量超过限制')]
-    public function test_validate_phone_send_count_exceeded()
+    public function testValidatePhoneSendCountExceeded()
     {
         $clientIp = '127.0.0.1';
         $phone = '13800138000';
@@ -147,7 +147,7 @@ class SmsCaptchaSendCheckRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 发送数量未超过限制')]
-    public function test_validate_send_count_not_exceeded()
+    public function testValidateSendCountNotExceeded()
     {
         $clientIp = '127.0.0.1';
         $phone = '13800138000';

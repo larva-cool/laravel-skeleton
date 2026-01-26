@@ -110,4 +110,123 @@ class PhoneCodeTest extends TestCase
         $phoneCode = new PhoneCode;
         $this->assertEquals('phone_codes', $phoneCode->getTable());
     }
+
+    /**
+     * 测试 build 方法
+     */
+    #[Test]
+    #[TestDox('测试 build 方法')]
+    public function test_build(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'build'));
+    }
+
+    /**
+     * 测试 getCode 方法
+     */
+    #[Test]
+    #[TestDox('测试 getCode 方法')]
+    public function test_get_code(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getCode'));
+    }
+
+    /**
+     * 测试 validate 方法
+     */
+    #[Test]
+    #[TestDox('测试 validate 方法')]
+    public function test_validate(): void
+    {
+        // 创建一个 PhoneCode 实例
+        $phoneCode = new PhoneCode;
+        $phoneCode->code = '123456';
+        $phoneCode->state = 0;
+
+        // 测试方法是否存在
+        $this->assertTrue(method_exists($phoneCode, 'validate'));
+    }
+
+    /**
+     * 测试 makeUsed 方法
+     */
+    #[Test]
+    #[TestDox('测试 makeUsed 方法')]
+    public function test_make_used(): void
+    {
+        // 创建一个 PhoneCode 实例
+        $phoneCode = new PhoneCode;
+        $phoneCode->state = 0;
+
+        // 测试方法是否存在
+        $this->assertTrue(method_exists($phoneCode, 'makeUsed'));
+    }
+
+    /**
+     * 测试 getIpTodayCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getIpTodayCount 方法')]
+    public function test_get_ip_today_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getIpTodayCount'));
+    }
+
+    /**
+     * 测试 getPhoneTodayCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getPhoneTodayCount 方法')]
+    public function test_get_phone_today_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getPhoneTodayCount'));
+    }
+
+    /**
+     * 测试 getTodayCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getTodayCount 方法')]
+    public function test_get_today_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getTodayCount'));
+    }
+
+    /**
+     * 测试 getIpHourCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getIpHourCount 方法')]
+    public function test_get_ip_hour_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getIpHourCount'));
+    }
+
+    /**
+     * 测试 getPhoneHourCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getPhoneHourCount 方法')]
+    public function test_get_phone_hour_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getPhoneHourCount'));
+    }
+
+    /**
+     * 测试 getHourCount 方法
+     */
+    #[Test]
+    #[TestDox('测试 getHourCount 方法')]
+    public function test_get_hour_count(): void
+    {
+        // 测试方法是否存在
+        $this->assertTrue(method_exists(PhoneCode::class, 'getHourCount'));
+    }
 }

@@ -7,7 +7,7 @@
 - **框架**：Laravel 12.x
 - **PHP 版本**：8.2+
 - **后台前端**：Layui 2.13.2+
-- **前台前端**：Bootstrap（默认 CSS 框架）
+- **前台前端**：Tailwind CSS（默认 CSS 框架）
 - **数据库**：支持多种数据库（MySQL、MongoDB）
 - **缓存**：Redis
 - **队列**：Laravel Horizon
@@ -51,9 +51,8 @@
 
 ### 5. 前端开发
 - 使用 Blade 模板引擎
-- 避免使用 Blade 组件
 - 避免在视图中混合 PHP 和 HTML
-- 使用 Bootstrap 类进行样式设计
+- 使用 Tailwind CSS 类进行样式设计
 - 将 JavaScript 放在单独的文件中
 - 尽量减少内联脚本
 - 使用 Vite 进行资产编译
@@ -65,6 +64,7 @@
 - 测试所有 API 端点
 - 使用工厂生成测试数据
 - 为关键路径编写功能测试
+- 所有测试方法命名均使用 `snake_case` 格式
 - 所有测试统一采用 PHPUnit 12 引入的新属性语法进行配置与标注。
   - 始终使用`Tests\TestCase` 作为测试基类
   - `#[Test]` 用于标记测试方法，确保引入`PHPUnit\Framework\Attributes\Test` 类
