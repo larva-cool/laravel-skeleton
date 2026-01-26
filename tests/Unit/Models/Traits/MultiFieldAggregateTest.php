@@ -75,4 +75,240 @@ class MultiFieldAggregateTest extends TestCase
         $parameters = $method->getParameters();
         $this->assertCount(2, $parameters);
     }
+
+    /**
+     * 测试 scopeSumMultipleFields 方法
+     */
+    #[Test]
+    #[TestDox('测试 scopeSumMultipleFields 方法')]
+    public function test_scope_sum_multiple_fields()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例，不指定具体方法
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 使用 __call 魔术方法来处理 sum 调用
+        $builderMock->method('__call')
+            ->with($this->anything(), $this->anything())
+            ->willReturnCallback(function ($method, $parameters) {
+                if ($method === 'sum') {
+                    $field = $parameters[0];
+                    $values = [
+                        'field1' => 100,
+                        'field2' => 200,
+                        'field3' => 300,
+                    ];
+
+                    return $values[$field] ?? 0;
+                }
+
+                return null;
+            });
+
+        // 使用反射调用 scopeSumMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeSumMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, ['field1', 'field2', 'field3']);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(3, count($result));
+        $this->assertEquals(100, $result['field1']);
+        $this->assertEquals(200, $result['field2']);
+        $this->assertEquals(300, $result['field3']);
+    }
+
+    /**
+     * 测试 scopeSumMultipleFields 方法 - 空字段数组
+     */
+    #[Test]
+    #[TestDox('测试 scopeSumMultipleFields 方法 - 空字段数组')]
+    public function test_scope_sum_multiple_fields_empty()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 使用反射调用 scopeSumMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeSumMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, []);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(0, count($result));
+    }
+
+    /**
+     * 测试 scopeCountMultipleFields 方法
+     */
+    #[Test]
+    #[TestDox('测试 scopeCountMultipleFields 方法')]
+    public function test_scope_count_multiple_fields()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 模拟 whereNotNull 方法返回自身
+        $builderMock->method('__call')
+            ->with($this->anything(), $this->anything())
+            ->willReturnCallback(function ($method, $parameters) use ($builderMock) {
+                if ($method === 'whereNotNull') {
+                    // 返回自身以支持链式调用
+                    return $builderMock;
+                } elseif ($method === 'count') {
+                    // 根据字段名返回不同的计数结果
+                    $field = $parameters[0] ?? '';
+                    $values = [
+                        'field1' => 10,
+                        'field2' => 20,
+                        'field3' => 30,
+                    ];
+
+                    return $values[$field] ?? 0;
+                }
+
+                return null;
+            });
+
+        // 使用反射调用 scopeCountMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeCountMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, ['field1', 'field2', 'field3']);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(3, count($result));
+        $this->assertEquals(10, $result['field1']);
+        $this->assertEquals(20, $result['field2']);
+        $this->assertEquals(30, $result['field3']);
+    }
+
+    /**
+     * 测试 scopeCountMultipleFields 方法 - 空字段数组
+     */
+    #[Test]
+    #[TestDox('测试 scopeCountMultipleFields 方法 - 空字段数组')]
+    public function test_scope_count_multiple_fields_empty()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 使用反射调用 scopeCountMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeCountMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, []);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(0, count($result));
+    }
+
+    /**
+     * 测试 scopeAverageMultipleFields 方法
+     */
+    #[Test]
+    #[TestDox('测试 scopeAverageMultipleFields 方法')]
+    public function test_scope_average_multiple_fields()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 模拟 avg 方法返回不同的平均值结果
+        $builderMock->method('__call')
+            ->with($this->anything(), $this->anything())
+            ->willReturnCallback(function ($method, $parameters) {
+                if ($method === 'avg') {
+                    // 根据字段名返回不同的平均值结果
+                    $field = $parameters[0] ?? '';
+                    $values = [
+                        'field1' => 10.5,
+                        'field2' => 20.75,
+                        'field3' => 30.25,
+                    ];
+
+                    return $values[$field] ?? 0;
+                }
+
+                return null;
+            });
+
+        // 使用反射调用 scopeAverageMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeAverageMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, ['field1', 'field2', 'field3']);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(3, count($result));
+        $this->assertEquals(10.5, $result['field1']);
+        $this->assertEquals(20.75, $result['field2']);
+        $this->assertEquals(30.25, $result['field3']);
+    }
+
+    /**
+     * 测试 scopeAverageMultipleFields 方法 - 空字段数组
+     */
+    #[Test]
+    #[TestDox('测试 scopeAverageMultipleFields 方法 - 空字段数组')]
+    public function test_scope_average_multiple_fields_empty()
+    {
+        // 创建一个使用 MultiFieldAggregate trait 的测试类
+        $testClass = new class
+        {
+            use MultiFieldAggregate;
+        };
+
+        // 模拟 Builder 实例
+        $builderMock = $this->getMockBuilder(\Illuminate\Database\Eloquent\Builder::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        // 使用反射调用 scopeAverageMultipleFields 方法
+        $reflection = new \ReflectionClass($testClass);
+        $method = $reflection->getMethod('scopeAverageMultipleFields');
+        $result = $method->invoke($testClass, $builderMock, []);
+
+        // 验证结果
+        $this->assertIsArray($result);
+        $this->assertEquals(0, count($result));
+    }
 }
