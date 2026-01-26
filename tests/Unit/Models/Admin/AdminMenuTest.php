@@ -10,6 +10,7 @@ namespace Tests\Unit\Models\Admin;
 
 use App\Models\Admin\AdminMenu;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
@@ -17,6 +18,7 @@ use Tests\TestCase;
 /**
  * 管理员菜单模型测试
  */
+#[CoversClass(AdminMenu::class)]
 class AdminMenuTest extends TestCase
 {
     /**

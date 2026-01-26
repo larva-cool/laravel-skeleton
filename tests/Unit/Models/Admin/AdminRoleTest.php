@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\Admin;
 
 use App\Models\Admin\AdminRole;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
@@ -16,6 +17,7 @@ use Tests\TestCase;
 /**
  * 管理员角色模型测试
  */
+#[CoversClass(AdminRole::class)]
 class AdminRoleTest extends TestCase
 {
     /**
