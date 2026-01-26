@@ -28,7 +28,6 @@ use Illuminate\Support\Carbon;
  */
 class UserGroup extends Model
 {
-
     /**
      * The table associated with the model.
      *

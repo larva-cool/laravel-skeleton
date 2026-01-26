@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\User;
 
 use App\Models\User\UserGroup;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\TestCase;
 
 /**
  * 用户组模型测试
@@ -23,11 +23,10 @@ class UserGroupTest extends TestCase
      */
     #[Test]
     #[TestDox('测试模型的基本属性和类型转换')]
-    public function test_model_basic_properties():
-        void
+    public function test_model_basic_properties(): void
     {
         // 创建一个 UserGroup 实例
-        $userGroup = new UserGroup();
+        $userGroup = new UserGroup;
 
         // 测试表名
         $this->assertEquals('user_groups', $userGroup->getTable());
@@ -43,8 +42,7 @@ class UserGroupTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 users 关系方法')]
-    public function test_users_relation():
-        void
+    public function test_users_relation(): void
     {
         // 测试 users 方法是否存在
         $this->assertTrue(method_exists(UserGroup::class, 'users'));
