@@ -91,22 +91,22 @@ class HasApiTokensTest extends TestCase
      * 测试 createDeviceToken 方法
      */
     #[Test]
-    public function testCreateDeviceToken()
+    public function test_create_device_token()
     {
         // 模拟 SettingManagerService
         $settingServiceMock = Mockery::mock('App\Services\SettingManagerService');
         $settingServiceMock->shouldReceive('get')->with('user.only_one_device_login', false)->andReturn(false);
         $settingServiceMock->shouldReceive('get')->with('user.token_expiration', 525600)->andReturn(1440);
-        
+
         // 绑定到服务容器
         $this->app->instance('App\Services\SettingManagerService', $settingServiceMock);
-        
+
         // 创建测试模型实例
-        $model = new TestModel();
-        
+        $model = new TestModel;
+
         // 测试方法
         $result = $model->createDeviceToken('test-device', ['*']);
-        
+
         // 验证返回值结构
         $this->assertIsArray($result);
         $this->assertArrayHasKey('token_id', $result);
