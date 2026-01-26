@@ -93,3 +93,34 @@ if (! function_exists('mobile_replace')) {
         return substr_replace($value, '****', 3, 4);
     }
 }
+
+/**
+ * 解析UA
+ */
+if (! function_exists('parse_user_agent')) {
+    function parse_user_agent($userAgent): array
+    {
+        $userAgent = trim($userAgent);
+        $agent = new \Jenssegers\Agent\Agent;
+        $agent->setUserAgent($userAgent);
+
+        return [
+            'platform' => $agent->platform(),
+            'device' => $agent->device(),
+            'browser' => $agent->browser(),
+            'isMobile' => $agent->isMobile(),
+            'isTablet' => $agent->isTablet(),
+            'isDesktop' => $agent->isDesktop(),
+            'isPhone' => $agent->isPhone(),
+        ];
+    }
+}
+
+if (! function_exists('ip_address')) {
+    function ip_address(string $ip)
+    {
+        $location = \Zhuzhichao\IpLocationZh\Ip::find($ip);
+
+        return is_array($location) ? implode(' ', $location) : $location;
+    }
+}

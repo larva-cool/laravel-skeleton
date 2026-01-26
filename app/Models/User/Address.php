@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Models\User;
 
-use App\Models\Traits;
 use App\Models\Model;
+use App\Models\Traits;
 use App\Policies\AddressPolicy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -42,8 +42,8 @@ use Illuminate\Support\Carbon;
 #[UsePolicy(AddressPolicy::class)]
 class Address extends Model
 {
-    use Traits\HasUser;
     use HasFactory, SoftDeletes;
+    use Traits\HasUser;
 
     /**
      * The table associated with the model.
