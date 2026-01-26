@@ -12,17 +12,21 @@ use App\Providers\SmsServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Overtrue\EasySms\EasySms;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * 短信服务提供者测试
  */
+#[CoversClass(SmsServiceProvider::class)]
 class SmsServiceProviderTest extends TestCase
 {
     /**
      * 测试 register 方法是否正确注册了 EasySms 服务
      */
-    public function test_register(): void
+    #[Test]
+    public function testRegister(): void
     {
         // 创建容器实例
         $app = new Container;
@@ -65,7 +69,8 @@ class SmsServiceProviderTest extends TestCase
     /**
      * 测试 boot 方法
      */
-    public function test_boot(): void
+    #[Test]
+    public function testBoot(): void
     {
         // 创建容器实例
         $app = new Container;

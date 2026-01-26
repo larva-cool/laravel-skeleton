@@ -10,17 +10,21 @@ namespace Tests\Unit\Models\System;
 
 use App\Models\System\PhoneCode;
 use Illuminate\Database\Eloquent\Builder;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * 手机验证码模型测试
  */
+#[CoversClass(PhoneCode::class)]
 class PhoneCodeTest extends TestCase
 {
     /**
      * 测试常量定义
      */
-    public function test_constants(): void
+    #[Test]
+    public function testConstants(): void
     {
         $this->assertEquals(1, PhoneCode::USED_STATE);
         $this->assertEquals('send_at', PhoneCode::CREATED_AT);
@@ -30,7 +34,8 @@ class PhoneCodeTest extends TestCase
     /**
      * 测试 fillable 属性
      */
-    public function test_fillable(): void
+    #[Test]
+    public function testFillable(): void
     {
         $phoneCode = new PhoneCode;
         $fillable = $phoneCode->getFillable();
@@ -49,7 +54,8 @@ class PhoneCodeTest extends TestCase
     /**
      * 测试 casts 属性
      */
-    public function test_casts(): void
+    #[Test]
+    public function testCasts(): void
     {
         $phoneCode = new PhoneCode;
         $casts = $phoneCode->getCasts();
@@ -67,7 +73,8 @@ class PhoneCodeTest extends TestCase
     /**
      * 测试 user 关联
      */
-    public function test_user_relation(): void
+    #[Test]
+    public function testUserRelation(): void
     {
         $phoneCode = new PhoneCode;
         $relation = $phoneCode->user();
@@ -78,7 +85,8 @@ class PhoneCodeTest extends TestCase
     /**
      * 测试 prunable 方法
      */
-    public function test_prunable(): void
+    #[Test]
+    public function testPrunable(): void
     {
         $phoneCode = new PhoneCode;
         $result = $phoneCode->prunable();
@@ -89,7 +97,8 @@ class PhoneCodeTest extends TestCase
     /**
      * 测试表名
      */
-    public function test_table_name(): void
+    #[Test]
+    public function testTableName(): void
     {
         $phoneCode = new PhoneCode;
         $this->assertEquals('phone_codes', $phoneCode->getTable());

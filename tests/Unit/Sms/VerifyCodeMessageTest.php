@@ -10,16 +10,20 @@ namespace Tests\Unit\Sms;
 
 use App\Sms\VerifyCodeMessage;
 use Overtrue\EasySms\Contracts\GatewayInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
  * 短信验证码消息测试
  */
+#[CoversClass(VerifyCodeMessage::class)]
 class VerifyCodeMessageTest extends TestCase
 {
     /**
      * 测试 getTemplate 方法
      */
+    #[Test]
     public function test_get_template(): void
     {
         // 创建 VerifyCodeMessage 实例
@@ -58,6 +62,7 @@ class VerifyCodeMessageTest extends TestCase
     /**
      * 测试 getData 方法
      */
+    #[Test]
     public function test_get_data(): void
     {
         // 创建 VerifyCodeMessage 实例
@@ -101,6 +106,7 @@ class VerifyCodeMessageTest extends TestCase
     /**
      * 测试 getContent 方法
      */
+    #[Test]
     public function test_get_content(): void
     {
         // 创建 VerifyCodeMessage 实例
@@ -144,6 +150,7 @@ class VerifyCodeMessageTest extends TestCase
     /**
      * 测试 getGateways 方法
      */
+    #[Test]
     public function test_get_gateways(): void
     {
         // 创建 VerifyCodeMessage 实例
