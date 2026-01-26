@@ -113,4 +113,89 @@ class FileHelperTest extends TestCase
         // 清理
         @unlink($testFilePath);
     }
+
+    #[Test]
+    #[TestDox('测试 writeJson 方法成功写入 JSON 文件')]
+    public function test_write_json_method_success()
+    {
+        // 准备测试数据
+        $testFilePath = storage_path('framework/testing/test-write-json-file.json');
+        $testData = ['name' => '测试', 'value' => 123];
+
+        // 测试writeJson方法
+        $result = FileHelper::writeJson($testFilePath, $testData);
+
+        // 断言
+        $this->assertNotFalse($result);
+        $this->assertEquals($testData, json_decode(file_get_contents($testFilePath), true));
+
+        // 清理
+        @unlink($testFilePath);
+    }
+
+    #[Test]
+    #[TestDox('测试 makeDirectory 方法成功创建目录')]
+    public function test_make_directory_method_success()
+    {
+        // 准备测试数据
+        $testDirPath = storage_path('framework/testing/test-directory');
+
+        // 确保目录不存在
+        if (is_dir($testDirPath)) {
+            rmdir($testDirPath);
+        }
+
+        // 测试makeDirectory方法，使用recursive=true
+        $result = FileHelper::makeDirectory($testDirPath, 0755, true);
+
+        // 断言
+        $this->assertTrue($result);
+        $this->assertDirectoryExists($testDirPath);
+
+        // 清理
+        if (is_dir($testDirPath)) {
+            rmdir($testDirPath);
+        }
+    }
+
+    #[Test]
+    #[TestDox('测试 makeDirectory 方法在目录已存在时返回 true')]
+    public function test_make_directory_method_directory_exists()
+    {
+        // 准备测试数据
+        $testDirPath = storage_path('framework/testing/test-directory');
+
+        // 确保目录存在
+        if (! is_dir($testDirPath)) {
+            mkdir($testDirPath, 0755, true);
+        }
+
+        // 测试makeDirectory方法
+        $result = FileHelper::makeDirectory($testDirPath);
+
+        // 断言
+        $this->assertTrue($result);
+
+        // 清理
+        if (is_dir($testDirPath)) {
+            rmdir($testDirPath);
+        }
+    }
+
+    #[Test]
+    #[TestDox('测试 generateDirectoryPath 方法生成目录路径')]
+    public function test_generate_directory_path_method()
+    {
+        // 测试不同ID的情况
+        $testCases = [
+            [123, 'avatar', 'avatar/000/0001'],
+            [123456789, 'images', 'images/123/4567'],
+            [999999999, 'files', 'files/999/9999'],
+        ];
+
+        foreach ($testCases as [$id, $directory, $expected]) {
+            $result = FileHelper::generateDirectoryPath($id, $directory);
+            $this->assertEquals($expected, $result);
+        }
+    }
 }

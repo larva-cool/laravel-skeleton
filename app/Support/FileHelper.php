@@ -74,8 +74,8 @@ class FileHelper
      */
     public static function makeDirectory(string $path, int $mode = 0755, bool $recursive = false, bool $force = false): bool
     {
-        $path = realpath($path);
-        if (is_dir($path)) {
+        $realPath = realpath($path);
+        if ($realPath && is_dir($realPath)) {
             return true;
         }
         if ($force) {
