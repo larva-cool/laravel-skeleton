@@ -66,6 +66,7 @@
 - 使用工厂生成测试数据
 - 为关键路径编写功能测试
 - 所有测试统一采用 PHPUnit 12 引入的新属性语法进行配置与标注。
+  - 始终使用`Tests\TestCase` 作为测试基类
   - `#[Test]` 用于标记测试方法
   - `#[CoversClass(ClassName::class)]` 用于指定测试的类
   - `#[DataProvider('dataProviderMethod')]` 用于指定数据提供方法
