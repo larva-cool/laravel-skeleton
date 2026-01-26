@@ -56,9 +56,12 @@ jobs:
       - name: Execute tests
         run: php artisan test --coverage  --coverage-xml=coverage.xml
       
+      - name: Generate junit.xml
+        run: vendor/bin/phpunit --log-junit junit.xml
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage.xml # optional
+          files: ./junit.xml # optional
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_ORG_TOKEN }}
