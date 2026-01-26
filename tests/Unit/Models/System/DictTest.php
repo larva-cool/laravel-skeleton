@@ -267,4 +267,81 @@ class DictTest extends TestCase
         $dict->update(['status' => StatusSwitch::DISABLED->value]);
         $this->assertEquals(StatusSwitch::DISABLED, $dict->status);
     }
+
+    #[Test]
+    #[TestDox('测试获取字典数据')]
+    public function test_get_options()
+    {
+        // 创建父字典
+        $parentDict = Dict::create([
+            'name' => '测试字典类型',
+            'code' => 'test_type',
+            'status' => StatusSwitch::ENABLED->value,
+        ]);
+
+        // 创建子字典
+        Dict::create([
+            'name' => '选项1',
+            'code' => 'option1',
+            'parent_id' => $parentDict->id,
+            'status' => StatusSwitch::ENABLED->value,
+        ]);
+
+        Dict::create([
+            'name' => '选项2',
+            'code' => 'option2',
+            'parent_id' => $parentDict->id,
+            'status' => StatusSwitch::ENABLED->value,
+        ]);
+
+        // 测试getOptions方法
+        $options = Dict::getOptions('test_type');
+        $this->assertIsArray($options);
+        $this->assertEquals(['option1' => '选项1', 'option2' => '选项2'], $options);
+
+        // 测试不存在的字典类型
+        $nonExistentOptions = Dict::getOptions('non_existent_type');
+        $this->assertEquals([], $nonExistentOptions);
+
+        // 测试禁用的字典类型
+        $parentDict->update(['status' => StatusSwitch::DISABLED->value]);
+        $disabledOptions = Dict::getOptions('test_type');
+        $this->assertEquals([], $disabledOptions);
+    }
+
+    #[Test]
+    #[TestDox('测试通过Code获取名称')]
+    public function test_get_name_by_code()
+    {
+        // 创建父字典
+        $parentDict = Dict::create([
+            'name' => '测试字典类型',
+            'code' => 'test_type',
+            'status' => StatusSwitch::ENABLED->value,
+        ]);
+
+        // 创建子字典
+        Dict::create([
+            'name' => '选项1',
+            'code' => 'option1',
+            'parent_id' => $parentDict->id,
+            'status' => StatusSwitch::ENABLED->value,
+        ]);
+
+        // 测试getNameByCode方法
+        $name = Dict::getNameByCode('test_type', 'option1');
+        $this->assertEquals('选项1', $name);
+
+        // 测试不存在的Code
+        $nonExistentName = Dict::getNameByCode('test_type', 'non_existent_code');
+        $this->assertEquals('', $nonExistentName);
+
+        // 测试空Code
+        $emptyCodeName = Dict::getNameByCode('test_type', '');
+        $this->assertEquals('', $emptyCodeName);
+
+        // 测试不存在的字典类型
+        $nonExistentType = Dict::getNameByCode('non_existent_type', 'option1');
+        $this->assertEquals('', $nonExistentType);
+    }
 }
