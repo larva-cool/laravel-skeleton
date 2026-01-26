@@ -18,10 +18,12 @@ use App\Models\User\UserGroup;
 use App\Models\User\UserProfile;
 use App\Models\User\UserSocial;
 use App\Observers\UserObserver;
+use App\Support\UserHelper;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -33,6 +35,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * 用户模型
@@ -61,26 +65,31 @@ use Illuminate\Support\Facades\Hash;
  * @property-read string $socket_status Socket 状态
  * @property-read string|null $phone_text 手机号文本
  * @property-read string $status_label 状态文本
+ * @property-read string $invite_link 邀请链接
  *
  * 关系对象
  * @property UserGroup $group 用户组
  * @property UserProfile $profile 个人信息
  * @property UserExtra $extra 用户扩展信息
- * @property \Illuminate\Database\Eloquent\Collection<int,UserSocial> $socials 用户社交账号
+ * @property Collection<int,UserSocial> $socials 用户社交账号
  * @property UserSocial|null $wechatMp 微信公众号
  * @property UserSocial|null $wechatApp 微信应用
  * @property UserSocial|null $wechatMiniProgram 微信小程序
- * @property \Illuminate\Database\Eloquent\Collection<int,LoginHistory> $loginHistories 登录历史
+ * @property Collection<int,LoginHistory> $loginHistories 登录历史
+ *
+ * @method Builder active() 查询活动用户
+ * @method Builder keyword(string $keyword) 根据关键词搜索
  *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
 
     use Traits\DateTimeFormatter;
+    use Traits\HasApiTokens;
     use Traits\MultiFieldAggregate;
 
     // 默认头像
@@ -174,6 +183,16 @@ class User extends Authenticatable
     }
 
     /**
+     * 获取头像
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => UserHelper::getAvatar($value)
+        );
+    }
+
+    /**
      * 在线状态
      */
     protected function socketStatus(): Attribute
@@ -181,6 +200,18 @@ class User extends Authenticatable
         return Attribute::make(get: function ($value, $attributes) {
             return ! empty($attributes['socket_id']) ? 'online' : 'offline';
         });
+    }
+
+    /**
+     * 获取邀请链接
+     */
+    protected function inviteLink(): Attribute
+    {
+        return Attribute::make(
+            get: function (?string $value, $attributes) {
+                return settings('system.m_url').'/#/register?invite_code=user@'.$attributes['id'];
+            },
+        )->shouldCache();
     }
 
     /**
@@ -276,8 +307,7 @@ class User extends Authenticatable
     /**
      * 查询活的用户
      */
-    #[Scope]
-    protected function active(Builder $query): Builder
+    protected function scopeActive(Builder $query): Builder
     {
         return $query->where('status', '=', UserStatus::STATUS_ACTIVE->value);
     }
@@ -285,8 +315,7 @@ class User extends Authenticatable
     /**
      * 根据关键词搜索
      */
-    #[Scope]
-    protected function keyword(Builder $query, string $keyword): Builder
+    protected function scopeKeyword(Builder $query, string $keyword): Builder
     {
         return $query->where(function (Builder $query) use ($keyword) {
             $query->where('username', 'like', '%'.$keyword.'%')
@@ -470,6 +499,28 @@ class User extends Authenticatable
         }
 
         return $this;
+    }
+
+    /**
+     * 重置用户头像
+     */
+    public function resetAvatar(): bool
+    {
+        if ($this->hasAvatar() && $this->getRawOriginal('avatar') != User::DEFAULT_AVATAR) {
+            try {
+                if (Storage::delete($this->getRawOriginal('avatar'))) {
+                    $this->forceFill(['avatar' => null])->updateQuietly();
+
+                    return true;
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to delete user avatar for user ID: '.$this->id.'. Error: '.$e->getMessage());
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
