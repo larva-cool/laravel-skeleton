@@ -48,7 +48,7 @@ return new class extends Migration
         });
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->primary()->comment('用户ID');
-            $table->unsignedTinyInteger('gender')->default(\App\Enum\UserGender::GENDER_UNKNOWN->value)->comment('性别：0/1/2');
+            $table->unsignedTinyInteger('gender')->default(\App\Enum\Gender::GENDER_UNKNOWN->value)->comment('性别：0/1/2');
             $table->date('birthday')->nullable()->comment('生日');
             $table->unsignedInteger('province_id')->nullable()->comment('省ID');
             $table->unsignedInteger('city_id')->nullable()->comment('市ID');

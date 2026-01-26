@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\User\Address;
 use App\Models\User\UserExtra;
 use App\Models\User\UserProfile;
 use App\Observers\UserObserver;
@@ -32,8 +33,8 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
-    use Traits\DateTimeFormatter;
 
+    use Traits\DateTimeFormatter;
     use Traits\MultiFieldAggregate;
 
     /**
@@ -84,5 +85,21 @@ class User extends Authenticatable
     public function extra(): HasOne
     {
         return $this->hasOne(UserExtra::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the address relation.
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class)->orderBy('id');
+    }
+
+    /**
+     * Get the default address relation.
+     */
+    public function defaultAddress(): HasOne
+    {
+        return $this->addresses()->one()->where('is_default', true)->latestOfMany();
     }
 }

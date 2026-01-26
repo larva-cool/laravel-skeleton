@@ -79,3 +79,17 @@ if (! function_exists('generate_verify_code')) {
         return $code;
     }
 }
+
+/**
+ * 手机号替换
+ */
+if (! function_exists('mobile_replace')) {
+    function mobile_replace(?string $value): string
+    {
+        if (! $value) {
+            return '';
+        }
+
+        return substr_replace($value, '****', 3, 4);
+    }
+}
