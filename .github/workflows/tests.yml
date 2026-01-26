@@ -46,4 +46,9 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        run: php artisan test --coverage
+        run: php artisan test --coverage --coverage-xml=tests/coverage.xml
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_ORG_TOKEN }}
