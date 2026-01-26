@@ -19,16 +19,23 @@ use App\Models\User\UserProfile;
 use App\Models\User\UserSocial;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * 用户模型
@@ -62,6 +69,10 @@ use Illuminate\Support\Carbon;
  * @property UserGroup $group 用户组
  * @property UserProfile $profile 个人信息
  * @property UserExtra $extra 用户扩展信息
+ * @property \Illuminate\Database\Eloquent\Collection<int,UserSocial> $socials 用户社交账号
+ * @property UserSocial|null $wechatMp 微信公众号
+ * @property UserSocial|null $wechatApp 微信应用
+ * @property UserSocial|null $wechatMiniProgram 微信小程序
  * @property \Illuminate\Database\Eloquent\Collection<int,LoginHistory> $loginHistories 登录历史
  *
  * @author Tongle Xu <xutongle@gmail.com>
@@ -263,5 +274,263 @@ class User extends Authenticatable
     public function loginHistories(): MorphMany
     {
         return $this->morphMany(LoginHistory::class, 'user')->latest('login_at ');
+    }
+
+    /**
+     * 查询活的用户
+     */
+    #[Scope]
+    protected function active(Builder $query): Builder
+    {
+        return $query->where('status', '=', UserStatus::STATUS_ACTIVE->value);
+    }
+
+    /**
+     * 根据关键词搜索
+     */
+    #[Scope]
+    protected function keyword(Builder $query, string $keyword): Builder
+    {
+        return $query->where(function (Builder $query) use ($keyword) {
+            $query->where('username', 'like', '%'.$keyword.'%')
+                ->orWhere('name', 'like', '%'.$keyword.'%')
+                ->orWhere('email', 'like', '%'.$keyword.'%')
+                ->orWhere('phone', 'like', '%'.$keyword.'%');
+        });
+    }
+
+    /**
+     * 获取手机号
+     *
+     * @param  \Illuminate\Notifications\Notification|null  $notification
+     */
+    public function routeNotificationForPhone($notification): ?string
+    {
+        return $this->phone ?: null;
+    }
+
+    /**
+     * 获取微信 Openid
+     *
+     * @param  \Illuminate\Notifications\Notification|null  $notification
+     */
+    public function routeNotificationForWechat($notification): ?string
+    {
+        $this->loadMissing('wechatMp');
+
+        return ! empty($this->wechatMp->openid) ? $this->wechatMp->openid : null;
+    }
+
+    /**
+     * 获取微信小程序 Openid
+     *
+     * @param  \Illuminate\Notifications\Notification|null  $notification
+     */
+    public function routeNotificationForWechatMini($notification): ?string
+    {
+        $this->loadMissing('wechatMiniProgram');
+
+        return ! empty($this->wechatMiniProgram->openid) ? $this->wechatMiniProgram->openid : null;
+    }
+
+    /**
+     * 是否有头像
+     */
+    public function hasAvatar(): bool
+    {
+        return ! empty($this->getRawOriginal('avatar'));
+    }
+
+    /**
+     * 是否有密码
+     */
+    public function hasPassword(): bool
+    {
+        return ! empty($this->password);
+    }
+
+    /**
+     * Determine if the user has verified their phone number.
+     */
+    public function hasVerifiedPhone(): bool
+    {
+        $this->loadMissing('extra');
+
+        return ! is_null($this->extra->phone_verified_at);
+    }
+
+    /**
+     * Determine if the user has verified their email address.
+     */
+    public function hasVerifiedEmail(): bool
+    {
+        $this->loadMissing('extra');
+
+        return ! is_null($this->extra->email_verified_at);
+    }
+
+    /**
+     * 增加 Vip 天数
+     */
+    public function addVipDays(int|string $days): bool
+    {
+        if ($this->vip_expiry_at) {
+            $this->vip_expiry_at = $this->vip_expiry_at->addDays($days);
+        } else {
+            $this->vip_expiry_at = Carbon::now()->addDays((int) $days);
+        }
+
+        return $this->saveQuietly();
+    }
+
+    /**
+     * Mark the given user's phone as verified.
+     */
+    public function markPhoneAsVerified(): bool
+    {
+        $this->loadMissing('extra');
+        $status = $this->extra->forceFill(['phone_verified_at' => $this->freshTimestamp()])->saveQuietly();
+        Event::dispatch(new \App\Events\User\PhoneVerified($this));
+
+        return $status;
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     */
+    public function markEmailAsVerified(): bool
+    {
+        $this->loadMissing('extra');
+        $status = $this->extra->forceFill(['email_verified_at' => $this->freshTimestamp()])->saveQuietly();
+        Event::dispatch(new \App\Events\User\EmailVerified($this));
+
+        return $status;
+    }
+
+    /**
+     * Mark the given user's active.
+     */
+    public function markActive(): bool
+    {
+        return $this->updateQuietly(['status' => UserStatus::STATUS_ACTIVE->value]);
+    }
+
+    /**
+     * Mark the given user's frozen.
+     */
+    public function markFrozen(): bool
+    {
+        return $this->updateQuietly(['status' => UserStatus::STATUS_FROZEN->value]);
+    }
+
+    /**
+     * Determine if the user has active.
+     */
+    public function isFrozen(): bool
+    {
+        return $this->status->isFrozen();
+    }
+
+    /**
+     * 验证支付密码是否正确
+     */
+    public function verifyPayPassword($password): bool
+    {
+        return $this->pay_password && Hash::check($password, $this->pay_password);
+    }
+
+    /**
+     * 是否是VIP会员
+     */
+    public function isVip(): bool
+    {
+        return $this->vip_expiry_at && $this->vip_expiry_at->gt(Carbon::now());
+    }
+
+    /**
+     * 刷新最后活动时间
+     */
+    public function refreshLastActiveAt(): void
+    {
+        $this->loadMissing('extra');
+
+        if (empty($this->extra->last_active_at) || $this->extra->last_active_at->lt(Carbon::now()->subMinutes(5))) {
+            $this->extra->updateQuietly(['last_active_at' => Carbon::now()]);
+        }
+    }
+
+    /**
+     * 刷新首次活动时间
+     *
+     * @return $this
+     */
+    public function refreshFirstActiveAt(): static
+    {
+        $this->loadMissing('extra');
+
+        if (! $this->extra->first_active_at) {
+            $this->extra->updateQuietly(['first_active_at' => Carbon::now()]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * 重置用户名
+     */
+    public function resetUsername(string $username): void
+    {
+        $this->loadMissing('extra');
+
+        if ($username != $this->username) {
+            $this->update(['username' => $username]);
+            $this->extra->increment('username_change_count');
+            Event::dispatch(new \App\Events\User\UsernameReset($this));
+        }
+    }
+
+    /**
+     * 重置用户密码
+     */
+    public function resetPassword(string $password): void
+    {
+        $this->password = $password;
+        $this->setRememberToken(\Illuminate\Support\Str::random(60));
+        $this->saveQuietly();
+        Event::dispatch(new \Illuminate\Auth\Events\PasswordReset($this));
+    }
+
+    /**
+     * 重置用户支付密码
+     */
+    public function modifyPayPassword(string $password): void
+    {
+        $this->pay_password = $password;
+        $this->saveQuietly();
+        Event::dispatch(new \App\Events\User\PayPasswordReset($this));
+    }
+
+    /**
+     * 重置用户手机号
+     */
+    public function resetPhone(int|string $phone): bool
+    {
+        $status = $this->forceFill(['phone' => $phone])->saveQuietly();
+        $this->extra->forceFill(['phone_verified_at' => $this->freshTimestamp()])->saveQuietly();
+        Event::dispatch(new \App\Events\User\PhoneReset($this));
+
+        return $status;
+    }
+
+    /**
+     * 重置用户邮箱
+     */
+    public function resetEmail(string $email): bool
+    {
+        $status = $this->forceFill(['email' => $email])->saveQuietly();
+        $this->extra->forceFill(['email_verified_at' => $this->freshTimestamp()])->saveQuietly();
+        Event::dispatch(new \App\Events\User\EmailReset($this));
+
+        return $status;
     }
 }
