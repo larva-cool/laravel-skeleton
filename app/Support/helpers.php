@@ -35,6 +35,30 @@ if (! function_exists('file_service')) {
     }
 }
 
+if (! function_exists('sms')) {
+
+    /**
+     * 发送短信
+     *
+     * @param  \Overtrue\EasySms\PhoneNumber|string  $mobile
+     * @param  string|\Overtrue\EasySms\Message  $message
+     * @return array|\Overtrue\EasySms\EasySms
+     *
+     * @throws NoGatewayAvailableException|InvalidArgumentException
+     */
+    function sms()
+    {
+        $arguments = func_get_args();
+        /** @var \Overtrue\EasySms\EasySms $sms */
+        $sms = app(\Overtrue\EasySms\EasySms::class);
+        if (empty($arguments)) {
+            return $sms;
+        }
+
+        return $sms->send($arguments[0], $arguments[1]);
+    }
+}
+
 /**
  * 生成验证码
  */
