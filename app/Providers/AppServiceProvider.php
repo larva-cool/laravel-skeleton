@@ -26,10 +26,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\SettingManagerService::class, function () {
             return new \App\Services\SettingManagerService;
         });
-        // 注册文件服务
-        $this->app->singleton(\App\Services\FileService::class, function () {
-            return new \App\Services\FileService;
-        });
         //
     }
 
