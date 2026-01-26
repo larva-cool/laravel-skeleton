@@ -14,6 +14,7 @@ use Illuminate\Container\Container;
 use Overtrue\EasySms\EasySms;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -26,7 +27,8 @@ class SmsServiceProviderTest extends TestCase
      * 测试 register 方法是否正确注册了 EasySms 服务
      */
     #[Test]
-    public function testRegister(): void
+    #[TestDox('测试 register 方法是否正确注册了 EasySms 服务')]
+    public function test_register(): void
     {
         // 创建容器实例
         $app = new Container;
@@ -70,7 +72,8 @@ class SmsServiceProviderTest extends TestCase
      * 测试 boot 方法
      */
     #[Test]
-    public function testBoot(): void
+    #[TestDox('测试 boot 方法')]
+    public function test_boot(): void
     {
         // 创建容器实例
         $app = new Container;

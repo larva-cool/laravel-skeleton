@@ -13,6 +13,7 @@ use Exception;
 use Illuminate\Support\Facades\RateLimiter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -74,6 +75,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 make 方法
      */
     #[Test]
+    #[TestDox('测试 make 方法')]
     public function test_make(): void
     {
         // 由于 make 方法会调用构造函数，而构造函数会调用 settings 函数，
@@ -93,6 +95,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试各种设置方法
      */
     #[Test]
+    #[TestDox('测试各种设置方法')]
     public function test_setters(): void
     {
         $service = $this->createService();
@@ -126,6 +129,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 setFixedVerifyCode 方法
      */
     #[Test]
+    #[TestDox('测试 setFixedVerifyCode 方法')]
     public function test_set_fixed_verify_code(): void
     {
         $service = $this->createService();
@@ -146,6 +150,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 getVerifyCode 方法 - 使用固定验证码
      */
     #[Test]
+    #[TestDox('测试 getVerifyCode 方法 - 使用固定验证码')]
     public function test_get_verify_code_with_fixed_code(): void
     {
         $service = $this->createService();
@@ -162,6 +167,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 validate 方法 - 使用固定验证码
      */
     #[Test]
+    #[TestDox('测试 validate 方法 - 使用固定验证码')]
     public function test_validate_with_fixed_code(): void
     {
         $service = $this->createService();
@@ -187,6 +193,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 generateValidationHash 方法
      */
     #[Test]
+    #[TestDox('测试 generateValidationHash 方法')]
     public function test_generate_validation_hash(): void
     {
         $service = $this->createService();
@@ -207,6 +214,7 @@ class SmsCaptchaServiceTest extends TestCase
      * 测试 send 方法 - 频率限制
      */
     #[Test]
+    #[TestDox('测试 send 方法 - 频率限制')]
     public function test_send_with_rate_limit(): void
     {
         $phone = '13800138000';

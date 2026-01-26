@@ -72,7 +72,7 @@
   - `#[DataProvider('dataProviderMethod')]` 用于指定数据提供方法，确保引入`PHPUnit\Framework\Attributes\DataProvider` 类
   - `#[Depends('testMethod')]` 用于指定依赖的测试方法，确保引入`PHPUnit\Framework\Attributes\Depends` 类
   - `#[Group('groupName')]` 用于将测试分组，确保引入`PHPUnit\Framework\Attributes\Group` 类
-  - `#[TestDox('Test Description')]` 用于为测试方法添加描述, 确保引入`PHPUnit\Framework\Attributes\TestDox` 类
+  - `#[TestDox('Test Description')]` 用于为测试方法添加描述, 确保引入`PHPUnit\Framework\Attributes\TestDox` 类，所有测试方法都应包含此属性。
 - 测试应针对 `.env.testing` 中定义的现有数据库进行。如果该文件不存在，则测试失败。
 
 ### 7. Git 工作流程
