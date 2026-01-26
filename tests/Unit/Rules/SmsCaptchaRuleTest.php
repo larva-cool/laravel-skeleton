@@ -27,7 +27,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试构造函数')]
-    public function testConstructor()
+    public function test_constructor()
     {
         $phoneField = 'phone';
         $clientIp = '127.0.0.1';
@@ -45,7 +45,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试构造函数 - 客户端 IP 为 null')]
-    public function testConstructorWithNullClientIp()
+    public function test_constructor_with_null_client_ip()
     {
         $phoneField = 'phone';
 
@@ -62,7 +62,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 setData 方法')]
-    public function testSetData()
+    public function test_set_data()
     {
         $phoneField = 'phone';
         $clientIp = '127.0.0.1';
@@ -95,7 +95,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 验证成功')]
-    public function testValidateSuccess()
+    public function test_validate_success()
     {
         $phoneField = 'phone';
         $clientIp = '127.0.0.1';
@@ -130,7 +130,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 验证失败')]
-    public function testValidateFailure()
+    public function test_validate_failure()
     {
         $phoneField = 'phone';
         $clientIp = '127.0.0.1';
@@ -166,7 +166,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 电话号码字段不存在')]
-    public function testValidatePhoneFieldNotExists()
+    public function test_validate_phone_field_not_exists()
     {
         $phoneField = 'non_existent_phone';
         $clientIp = '127.0.0.1';
@@ -202,7 +202,7 @@ class SmsCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 客户端 IP 为 null')]
-    public function testValidateWithNullClientIp()
+    public function test_validate_with_null_client_ip()
     {
         $phoneField = 'phone';
 

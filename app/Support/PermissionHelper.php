@@ -21,6 +21,7 @@ class PermissionHelper
 {
     /**
      * 获取管理员账号权限
+     *
      * @return array|string[]
      */
     public static function getPermissions(Admin $user): array

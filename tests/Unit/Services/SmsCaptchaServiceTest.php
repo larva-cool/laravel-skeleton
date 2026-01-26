@@ -76,7 +76,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 make 方法')]
-    public function testMake(): void
+    public function test_make(): void
     {
         // 由于 make 方法会调用构造函数，而构造函数会调用 settings 函数，
         // 所以我们这里只测试创建实例的能力，不测试具体的属性值
@@ -96,7 +96,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试各种设置方法')]
-    public function testSetters(): void
+    public function test_setters(): void
     {
         $service = $this->createService();
 
@@ -130,7 +130,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 setFixedVerifyCode 方法')]
-    public function testSetFixedVerifyCode(): void
+    public function test_set_fixed_verify_code(): void
     {
         $service = $this->createService();
         $fixedCode = '123456';
@@ -151,7 +151,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 getVerifyCode 方法 - 使用固定验证码')]
-    public function testGetVerifyCodeWithFixedCode(): void
+    public function test_get_verify_code_with_fixed_code(): void
     {
         $service = $this->createService();
         $fixedCode = '123456';
@@ -168,7 +168,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 使用固定验证码')]
-    public function testValidateWithFixedCode(): void
+    public function test_validate_with_fixed_code(): void
     {
         $service = $this->createService();
         $fixedCode = '123456';
@@ -194,7 +194,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 generateValidationHash 方法')]
-    public function testGenerateValidationHash(): void
+    public function test_generate_validation_hash(): void
     {
         $service = $this->createService();
         $code = '123456';
@@ -215,7 +215,7 @@ class SmsCaptchaServiceTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 send 方法 - 频率限制')]
-    public function testSendWithRateLimit(): void
+    public function test_send_with_rate_limit(): void
     {
         $phone = '13800138000';
         $service = $this->createService($phone);

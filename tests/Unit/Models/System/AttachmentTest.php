@@ -28,10 +28,10 @@ class AttachmentTest extends TestCase
     public function test_model_basic_configuration(): void
     {
         $attachment = new Attachment;
-        
+
         // 测试表名
         $this->assertEquals('attachments', $attachment->getTable());
-        
+
         // 测试可填充字段
         $expectedFillable = [
             'user_id', 'storage', 'origin_name', 'file_name', 'file_path', 'mime_type', 'file_size', 'file_ext',
@@ -48,7 +48,7 @@ class AttachmentTest extends TestCase
     {
         $attachment = new Attachment;
         $casts = $attachment->getCasts();
-        
+
         $this->assertEquals('integer', $casts['id']);
         $this->assertEquals('integer', $casts['user_id']);
         $this->assertEquals('string', $casts['storage']);
@@ -71,11 +71,11 @@ class AttachmentTest extends TestCase
     {
         // 模拟 URL::isValidUrl 方法
         URL::shouldReceive('isValidUrl')->with('https://example.com/test.jpg')->andReturn(true);
-        
+
         // 创建 Attachment 实例
         $attachment = new Attachment;
         $attachment->file_path = 'https://example.com/test.jpg';
-        
+
         // 测试 fileUrl 访问器
         $this->assertEquals('https://example.com/test.jpg', $attachment->file_url);
     }
@@ -89,14 +89,14 @@ class AttachmentTest extends TestCase
     {
         // 模拟 URL::isValidUrl 方法
         URL::shouldReceive('isValidUrl')->with('uploads/test.jpg')->andReturn(false);
-        
+
         // 模拟 Storage::url 方法
         Storage::shouldReceive('url')->with('uploads/test.jpg')->andReturn('http://localhost/storage/uploads/test.jpg');
-        
+
         // 创建 Attachment 实例
         $attachment = new Attachment;
         $attachment->file_path = 'uploads/test.jpg';
-        
+
         // 测试 fileUrl 访问器
         $this->assertEquals('http://localhost/storage/uploads/test.jpg', $attachment->file_url);
     }
@@ -110,10 +110,10 @@ class AttachmentTest extends TestCase
     {
         $attachment = new Attachment;
         $relation = $attachment->user();
-        
+
         // 测试关联类型
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Relations\BelongsTo', $relation);
-        
+
         // 测试关联的模型
         $this->assertEquals('App\Models\User', get_class($relation->getRelated()));
     }

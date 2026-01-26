@@ -47,7 +47,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试构造函数')]
-    public function testConstructor()
+    public function test_constructor()
     {
         $emailField = 'email';
         $clientIp = '127.0.0.1';
@@ -65,7 +65,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 setData 方法')]
-    public function testSetData()
+    public function test_set_data()
     {
         $emailField = 'email';
         $clientIp = '127.0.0.1';
@@ -98,7 +98,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 验证成功')]
-    public function testValidateSuccess()
+    public function test_validate_success()
     {
         $emailField = 'email';
         $clientIp = '127.0.0.1';
@@ -132,7 +132,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 验证失败')]
-    public function testValidateFailure()
+    public function test_validate_failure()
     {
         $emailField = 'email';
         $clientIp = '127.0.0.1';
@@ -166,7 +166,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 不区分大小写')]
-    public function testValidateCaseInsensitive()
+    public function test_validate_case_insensitive()
     {
         $emailField = 'email';
         $clientIp = '127.0.0.1';
@@ -200,7 +200,7 @@ class MailCaptchaRuleTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 validate 方法 - 邮箱字段不存在')]
-    public function testValidateEmailFieldNotExists()
+    public function test_validate_email_field_not_exists()
     {
         $emailField = 'non_existent_email';
         $clientIp = '127.0.0.1';

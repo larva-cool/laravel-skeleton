@@ -24,7 +24,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 trait 是否被正确使用')]
-    public function testTraitUsage()
+    public function test_trait_usage()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -48,7 +48,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试方法签名是否正确')]
-    public function testMethodSignatures()
+    public function test_method_signatures()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -81,7 +81,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeSumMultipleFields 方法')]
-    public function testScopeSumMultipleFields()
+    public function test_scope_sum_multiple_fields()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -130,7 +130,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeSumMultipleFields 方法 - 空字段数组')]
-    public function testScopeSumMultipleFieldsEmpty()
+    public function test_scope_sum_multiple_fields_empty()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -158,7 +158,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeCountMultipleFields 方法')]
-    public function testScopeCountMultipleFields()
+    public function test_scope_count_multiple_fields()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -211,7 +211,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeCountMultipleFields 方法 - 空字段数组')]
-    public function testScopeCountMultipleFieldsEmpty()
+    public function test_scope_count_multiple_fields_empty()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -239,7 +239,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeAverageMultipleFields 方法')]
-    public function testScopeAverageMultipleFields()
+    public function test_scope_average_multiple_fields()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class
@@ -289,7 +289,7 @@ class MultiFieldAggregateTest extends TestCase
      */
     #[Test]
     #[TestDox('测试 scopeAverageMultipleFields 方法 - 空字段数组')]
-    public function testScopeAverageMultipleFieldsEmpty()
+    public function test_scope_average_multiple_fields_empty()
     {
         // 创建一个使用 MultiFieldAggregate trait 的测试类
         $testClass = new class

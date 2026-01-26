@@ -14,10 +14,10 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Mockery;
 
 /**
  * 手机号码验证事件测试
@@ -28,7 +28,7 @@ use Mockery;
 class PhoneVerifiedTest extends TestCase
 {
     #[Test]
-    public function testImplementsCorrectInterfaces()
+    public function test_implements_correct_interfaces()
     {
         $user = Mockery::mock(User::class);
         $event = new PhoneVerified($user);
@@ -39,7 +39,7 @@ class PhoneVerifiedTest extends TestCase
     }
 
     #[Test]
-    public function testConstructorSetsUserProperty()
+    public function test_constructor_sets_user_property()
     {
         $user = Mockery::mock(User::class);
         $event = new PhoneVerified($user);
@@ -48,7 +48,7 @@ class PhoneVerifiedTest extends TestCase
     }
 
     #[Test]
-    public function testBroadcastOnReturnsPrivateChannel()
+    public function test_broadcast_on_returns_private_channel()
     {
         $user = Mockery::mock(User::class);
         $user->shouldReceive('getAttribute')->with('id')->andReturn(123);
@@ -62,7 +62,7 @@ class PhoneVerifiedTest extends TestCase
     }
 
     #[Test]
-    public function testBroadcastOnReturnsChannelWithCorrectUserId()
+    public function test_broadcast_on_returns_channel_with_correct_user_id()
     {
         $user = Mockery::mock(User::class);
         $user->shouldReceive('getAttribute')->with('id')->andReturn(456);

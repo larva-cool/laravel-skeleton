@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Models\User;
 
 use App\Enum\SocialProvider;
-use App\Models\Traits;
 use App\Models\Model;
+use App\Models\Traits;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
@@ -28,7 +28,6 @@ use Illuminate\Support\Carbon;
  * @property string $identity_token 身份令牌
  * @property Carbon $created_at 创建时间
  * @property Carbon $updated_at 更新时间
- *
  * @property User $user 用户
  *
  * @author Tongle Xu <xutongle@gmail.com>

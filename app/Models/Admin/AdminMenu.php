@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace App\Models\Admin;
 
-use App\Models\Traits;
 use App\Models\Model;
 use App\Support\FileHelper;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +21,6 @@ use Illuminate\Support\Facades\Cache;
  */
 class AdminMenu extends Model
 {
-
     /**
      * The table associated with the model.
      *
