@@ -36,6 +36,14 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
@@ -46,7 +54,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        run: php artisan test --coverage --coverage-clover coverage.xml .
+        run: php artisan test --coverage  --coverage-xml=coverage.xml
       
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
