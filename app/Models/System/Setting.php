@@ -91,7 +91,7 @@ class Setting extends Model
     public static function getAll(): array
     {
         $settings = [];
-        self::query()->orderBy('order')->all()->each(function ($setting) use (&$settings) {
+        self::query()->orderBy('order')->get()->each(function ($setting) use (&$settings) {
             $settings[$setting['key']] = $setting['value'];
         });
 
