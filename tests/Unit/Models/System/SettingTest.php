@@ -9,15 +9,18 @@ declare(strict_types=1);
 namespace Tests\Unit\Models\System;
 
 use App\Models\System\Setting;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
+#[CoversClass(Setting::class)]
 class SettingTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\RefreshDatabase;
 
-    /**
-     * 测试模型的基本属性和类型转换
-     */
+    #[Test]
+    #[TestDox('测试模型的基本属性和类型转换')]
     public function test_model_basic_attributes_and_casts(): void
     {
         // 创建测试数据
@@ -44,9 +47,8 @@ class SettingTest extends TestCase
         $this->assertNotNull($setting->updated_at);
     }
 
-    /**
-     * 测试 getValueType 方法
-     */
+    #[Test]
+    #[TestDox('测试 getValueType 方法')]
     public function test_get_value_type_method(): void
     {
         // 创建测试数据
@@ -66,9 +68,8 @@ class SettingTest extends TestCase
         $this->assertEquals('boolean', Setting::getValueType('non.existent.key', 'boolean'));
     }
 
-    /**
-     * 测试 getAll 方法
-     */
+    #[Test]
+    #[TestDox('测试 getAll 方法')]
     public function test_get_all_method(): void
     {
         // 创建测试数据
@@ -98,9 +99,8 @@ class SettingTest extends TestCase
         $this->assertEquals('value2', $settings['config.two']);
     }
 
-    /**
-     * 测试 batchSet 方法
-     */
+    #[Test]
+    #[TestDox('测试 batchSet 方法')]
     public function test_batch_set_method(): void
     {
         // 准备批量数据
@@ -136,9 +136,8 @@ class SettingTest extends TestCase
         ]);
     }
 
-    /**
-     * 测试模型的可填充属性
-     */
+    #[Test]
+    #[TestDox('测试模型的可填充属性')]
     public function test_model_fillable_attributes(): void
     {
         // 测试所有可填充属性

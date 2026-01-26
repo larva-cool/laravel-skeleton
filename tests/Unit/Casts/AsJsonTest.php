@@ -10,13 +10,16 @@ namespace Tests\Unit\Casts;
 
 use App\Casts\AsJson;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(AsJson::class)]
 class AsJsonTest extends TestCase
 {
-    /**
-     * 测试 get 方法从 JSON 字符串转换为数组
-     */
+    #[Test]
+    #[TestDox('测试 get 方法从 JSON 字符串转换为数组')]
     public function test_get_method_converts_json_string_to_array(): void
     {
         $cast = new AsJson;
@@ -29,9 +32,8 @@ class AsJsonTest extends TestCase
         $this->assertEquals(['key' => 'value', 'number' => 123], $result);
     }
 
-    /**
-     * 测试 get 方法处理 null 值
-     */
+    #[Test]
+    #[TestDox('测试 get 方法处理 null 值')]
     public function test_get_method_returns_empty_array_for_null_value(): void
     {
         $cast = new AsJson;
@@ -43,9 +45,8 @@ class AsJsonTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    /**
-     * 测试 get 方法处理空字符串
-     */
+    #[Test]
+    #[TestDox('测试 get 方法处理空字符串')]
     public function test_get_method_returns_empty_array_for_empty_string(): void
     {
         $cast = new AsJson;
@@ -57,9 +58,8 @@ class AsJsonTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    /**
-     * 测试 set 方法从数组转换为 JSON 字符串
-     */
+    #[Test]
+    #[TestDox('测试 set 方法从数组转换为 JSON 字符串')]
     public function test_set_method_converts_array_to_json_string(): void
     {
         $cast = new AsJson;
@@ -73,9 +73,8 @@ class AsJsonTest extends TestCase
         $this->assertEquals(json_encode($arrayValue), $result);
     }
 
-    /**
-     * 测试 set 方法处理非数组值
-     */
+    #[Test]
+    #[TestDox('测试 set 方法处理非数组值')]
     public function test_set_method_converts_non_array_to_json_string(): void
     {
         $cast = new AsJson;
@@ -89,9 +88,8 @@ class AsJsonTest extends TestCase
         $this->assertEquals(json_encode((array) $objectValue), $result);
     }
 
-    /**
-     * 测试 set 方法处理空数组
-     */
+    #[Test]
+    #[TestDox('测试 set 方法处理空数组')]
     public function test_set_method_returns_null_for_empty_array(): void
     {
         $cast = new AsJson;
@@ -103,9 +101,8 @@ class AsJsonTest extends TestCase
         $this->assertNull($result);
     }
 
-    /**
-     * 测试 set 方法处理 null 值
-     */
+    #[Test]
+    #[TestDox('测试 set 方法处理 null 值')]
     public function test_set_method_returns_null_for_null_value(): void
     {
         $cast = new AsJson;

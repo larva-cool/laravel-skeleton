@@ -10,15 +10,18 @@ namespace Tests\Unit\Casts;
 
 use App\Casts\StorageUrl;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
+#[CoversClass(StorageUrl::class)]
 class StorageUrlTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\RefreshDatabase;
 
-    /**
-     * 测试 get 方法处理空值
-     */
+    #[Test]
+    #[TestDox('测试 get 方法处理空值')]
     public function test_get_method_returns_empty_value_for_empty_input(): void
     {
         $cast = new StorageUrl;
@@ -33,9 +36,8 @@ class StorageUrlTest extends TestCase
         $this->assertEquals('', $result2);
     }
 
-    /**
-     * 测试 get 方法处理非空值（集成测试）
-     */
+    #[Test]
+    #[TestDox('测试 get 方法处理非空值（集成测试）')]
     public function test_get_method_converts_path_to_url(): void
     {
         $cast = new StorageUrl;
@@ -50,9 +52,8 @@ class StorageUrlTest extends TestCase
         $this->assertStringContainsString($path, $result);
     }
 
-    /**
-     * 测试 set 方法处理值（集成测试）
-     */
+    #[Test]
+    #[TestDox('测试 set 方法处理值（集成测试）')]
     public function test_set_method_converts_url_to_relative_path(): void
     {
         $cast = new StorageUrl;
