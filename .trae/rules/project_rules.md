@@ -67,12 +67,12 @@
 - 为关键路径编写功能测试
 - 所有测试统一采用 PHPUnit 12 引入的新属性语法进行配置与标注。
   - 始终使用`Tests\TestCase` 作为测试基类
-  - `#[Test]` 用于标记测试方法
-  - `#[CoversClass(ClassName::class)]` 用于指定测试的类
-  - `#[DataProvider('dataProviderMethod')]` 用于指定数据提供方法
-  - `#[Depends('testMethod')]` 用于指定依赖的测试方法
-  - `#[Group('groupName')]` 用于将测试分组
-  - `#[TestDox('Test Description')]` 用于为测试方法添加描述
+  - `#[Test]` 用于标记测试方法，确保引入`PHPUnit\Framework\Attributes\Test` 类
+  - `#[CoversClass(ClassName::class)]` 用于指定测试的类，确保引入`PHPUnit\Framework\Attributes\CoversClass` 类
+  - `#[DataProvider('dataProviderMethod')]` 用于指定数据提供方法，确保引入`PHPUnit\Framework\Attributes\DataProvider` 类
+  - `#[Depends('testMethod')]` 用于指定依赖的测试方法，确保引入`PHPUnit\Framework\Attributes\Depends` 类
+  - `#[Group('groupName')]` 用于将测试分组，确保引入`PHPUnit\Framework\Attributes\Group` 类
+  - `#[TestDox('Test Description')]` 用于为测试方法添加描述, 确保引入`PHPUnit\Framework\Attributes\TestDox` 类
 - 测试应针对 `.env.testing` 中定义的现有数据库进行。如果该文件不存在，则测试失败。
 
 ### 7. Git 工作流程
