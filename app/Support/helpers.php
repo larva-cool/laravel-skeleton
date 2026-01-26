@@ -34,4 +34,3 @@ if (! function_exists('file_service')) {
         return app(\App\Services\FileService::class);
     }
 }
-
