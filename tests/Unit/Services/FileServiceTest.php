@@ -12,6 +12,7 @@ use App\Services\FileService;
 use App\Services\SettingManagerService;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
@@ -182,5 +183,136 @@ class FileServiceTest extends TestCase
         $expiration = Carbon::now()->addHour();
         $result = $fileService->temporaryUploadUrl('test.jpg', $expiration, []);
         $this->assertIsArray($result);
+    }
+
+    /**
+     * 测试 path 方法
+     */
+    #[Test]
+    #[TestDox('测试 path 方法')]
+    public function test_path()
+    {
+        // 模拟 Storage 门面
+        $filesystemMock = $this->createMock(FilesystemAdapter::class);
+        $expectedPath = storage_path('app/test.jpg');
+        $filesystemMock->method('path')
+            ->with('test.jpg')
+            ->willReturn($expectedPath);
+        Storage::shouldReceive('disk')
+            ->with('local')
+            ->andReturn($filesystemMock);
+
+        // 测试 path 方法
+        $fileService = new FileService;
+        $result = $fileService->path('test.jpg');
+        $this->assertEquals($expectedPath, $result);
+    }
+
+    /**
+     * 测试 uploadFile 方法
+     */
+    #[Test]
+    #[TestDox('测试 uploadFile 方法')]
+    public function test_upload_file()
+    {
+        // 创建模拟上传文件
+        $uploadedFile = $this->createMock(UploadedFile::class);
+        $uploadedFile->method('getClientOriginalName')
+            ->willReturn('test.jpg');
+        $uploadedFile->method('getSize')
+            ->willReturn(1024);
+        $uploadedFile->method('getClientOriginalExtension')
+            ->willReturn('jpg');
+        $uploadedFile->method('getClientMimeType')
+            ->willReturn('image/jpeg');
+
+        // 模拟 Storage 门面
+        $filesystemMock = $this->createMock(FilesystemAdapter::class);
+        $filesystemMock->method('exists')
+            ->willReturn(false);
+        $filesystemMock->method('putFileAs')
+            ->willReturn('uploads/2024/01/26/test.jpg');
+        Storage::shouldReceive('disk')
+            ->with('local')
+            ->andReturn($filesystemMock);
+
+        // 测试 uploadFile 方法
+        $fileService = new FileService;
+        $result = $fileService->uploadFile($uploadedFile);
+        $this->assertIsArray($result);
+        $this->assertEquals('local', $result['storage']);
+        $this->assertEquals('test.jpg', $result['origin_name']);
+        $this->assertEquals('uploads/2024/01/26/test.jpg', $result['file_path']);
+        $this->assertEquals(1024, $result['file_size']);
+        $this->assertEquals('jpg', $result['file_ext']);
+        $this->assertEquals('image/jpeg', $result['mime_type']);
+    }
+
+    /**
+     * 测试 uploadFile 方法 - 文件已存在
+     */
+    #[Test]
+    #[TestDox('测试 uploadFile 方法 - 文件已存在')]
+    public function test_upload_file_exists()
+    {
+        // 创建模拟上传文件
+        $uploadedFile = $this->createMock(UploadedFile::class);
+        $uploadedFile->method('getClientOriginalName')
+            ->willReturn('test.jpg');
+        $uploadedFile->method('getSize')
+            ->willReturn(1024);
+        $uploadedFile->method('getClientOriginalExtension')
+            ->willReturn('jpg');
+        $uploadedFile->method('getClientMimeType')
+            ->willReturn('image/jpeg');
+
+        // 模拟 Storage 门面
+        $filesystemMock = $this->createMock(FilesystemAdapter::class);
+        $filesystemMock->method('exists')
+            ->willReturn(true);
+        $filesystemMock->method('putFileAs')
+            ->willReturn('uploads/2024/01/26/test.jpg');
+        Storage::shouldReceive('disk')
+            ->with('local')
+            ->andReturn($filesystemMock);
+
+        // 测试 uploadFile 方法
+        $fileService = new FileService;
+        $result = $fileService->uploadFile($uploadedFile);
+        $this->assertIsArray($result);
+    }
+
+    /**
+     * 测试 uploadFile 方法 - 上传失败
+     */
+    #[Test]
+    #[TestDox('测试 uploadFile 方法 - 上传失败')]
+    public function test_upload_file_failed()
+    {
+        // 创建模拟上传文件
+        $uploadedFile = $this->createMock(UploadedFile::class);
+        $uploadedFile->method('getClientOriginalName')
+            ->willReturn('test.jpg');
+        $uploadedFile->method('getSize')
+            ->willReturn(1024);
+        $uploadedFile->method('getClientOriginalExtension')
+            ->willReturn('jpg');
+        $uploadedFile->method('getClientMimeType')
+            ->willReturn('image/jpeg');
+
+        // 模拟 Storage 门面
+        $filesystemMock = $this->createMock(FilesystemAdapter::class);
+        $filesystemMock->method('exists')
+            ->willReturn(false);
+        $filesystemMock->method('putFileAs')
+            ->willReturn(false);
+        Storage::shouldReceive('disk')
+            ->with('local')
+            ->andReturn($filesystemMock);
+
+        // 测试 uploadFile 方法
+        $fileService = new FileService;
+        $result = $fileService->uploadFile($uploadedFile);
+        $this->assertFalse($result);
     }
 }
