@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enum\SocialProvider;
 use App\Enum\UserStatus;
 use App\Models\User\Address;
 use App\Models\User\LoginHistory;
 use App\Models\User\UserExtra;
 use App\Models\User\UserGroup;
 use App\Models\User\UserProfile;
+use App\Models\User\UserSocial;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -205,6 +207,38 @@ class User extends Authenticatable
     public function extra(): HasOne
     {
         return $this->hasOne(UserExtra::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the socials' relation.
+     */
+    public function socials(): HasMany
+    {
+        return $this->hasMany(UserSocial::class)->orderBy('id');
+    }
+
+    /**
+     * Get the wechat mp relation.
+     */
+    public function wechatMp(): HasOne
+    {
+        return $this->socials()->one()->where('provider', SocialProvider::WECHAT_MP->value);
+    }
+
+    /**
+     * Get the wechat app relation.
+     */
+    public function wechatApp(): HasOne
+    {
+        return $this->socials()->one()->where('provider', SocialProvider::WECHAT_APP->value);
+    }
+
+    /**
+     * Get the wechat mini program relation.
+     */
+    public function wechatMiniProgram(): HasOne
+    {
+        return $this->socials()->one()->where('provider', SocialProvider::WECHAT_MINI_PROGRAM->value);
     }
 
     /**
