@@ -67,14 +67,14 @@ class MailCaptchaRule implements DataAwareRule, ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $email = $this->data[$this->emailField] ?: 'verify_email';
+        $email = $this->data[$this->emailField] ?? 'verify_email';
 
         $service = MailCaptchaService::make($email, $this->clientIp);
         if (app()->environment(['testing'])) {
             $service->setFixedVerifyCode('123456');
         }
         if (! $service->validate($value, false)) {
-            $fail('validation.verify_code')->translate();
+            $fail('validation.verify_code');
         }
     }
 }
