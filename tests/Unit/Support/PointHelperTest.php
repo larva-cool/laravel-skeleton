@@ -28,7 +28,7 @@ class PointHelperTest extends TestCase
     use RefreshDatabase;
 
     /** @var User */
-    protected $user;
+    protected User $user;
 
     /**
      * @var User 测试source用户

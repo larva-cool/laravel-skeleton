@@ -11,6 +11,7 @@ namespace Tests\Unit\Providers;
 use App\Providers\DynamicConfigServiceProvider;
 use App\Services\SettingManagerService;
 use Illuminate\Container\Container;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,6 +24,8 @@ use Tests\TestCase;
 #[TestDox('DynamicConfigServiceProvider 测试')]
 class DynamicConfigServiceProviderTest extends TestCase
 {
+    use RefreshDatabase;
+    
     /**
      * 测试 boot 方法 - 正常流程
      */

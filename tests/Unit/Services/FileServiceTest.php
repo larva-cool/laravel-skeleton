@@ -9,11 +9,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Services\FileService;
-use App\Services\SettingManagerService;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -25,33 +24,13 @@ use Tests\TestCase;
 #[TestDox('FileService 测试')]
 class FileServiceTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * 测试 setUp
      */
     protected function setUp(): void
     {
         parent::setUp();
-
-        // 模拟 SettingManagerService
-        $settingManagerMock = $this->createMock(SettingManagerService::class);
-        $settingManagerMock->method('get')
-            ->withAnyParameters()
-            ->willReturnMap([
-                ['upload.name_rule', null, 'unique'],
-                ['upload.storage', null, 'local'],
-            ]);
-
-        // 绑定到服务容器
-        $this->app->instance(SettingManagerService::class, $settingManagerMock);
-
-        // 模拟配置
-        Config::set('filesystems.default', 'local');
-        Config::set('filesystems.disks.local', [
-            'driver' => 'local',
-            'root' => storage_path('app'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
-        ]);
     }
 
     /**

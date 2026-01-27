@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Services\MailCaptchaService;
-use App\Services\SettingManagerService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
@@ -20,26 +20,14 @@ use Tests\TestCase;
 #[TestDox('MailCaptchaService 测试')]
 class MailCaptchaServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * 测试 setUp
      */
     protected function setUp(): void
     {
         parent::setUp();
-
-        // 模拟 SettingManagerService
-        $settingManagerMock = $this->createMock(SettingManagerService::class);
-        $settingManagerMock->method('get')
-            ->withAnyParameters()
-            ->willReturnMap([
-                ['email_captcha.duration', null, 10],
-                ['email_captcha.length', null, 6],
-                ['email_captcha.wait_time', null, 60],
-                ['email_captcha.test_limit', null, 3],
-            ]);
-
-        // 绑定到服务容器
-        $this->app->instance(SettingManagerService::class, $settingManagerMock);
     }
 
     /**

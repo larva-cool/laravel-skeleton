@@ -22,7 +22,6 @@ use Tests\TestCase;
 #[TestDox('测试 SettingManagerService 类的设置管理服务方法')]
 class SettingManagerServiceTest extends TestCase
 {
-    // 使用RefreshDatabase特性来重置数据库状态
     use RefreshDatabase;
 
     protected SettingManagerService $service;

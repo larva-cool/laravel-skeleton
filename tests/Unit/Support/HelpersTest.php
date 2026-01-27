@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * 辅助函数测试
  */
+#[TestDox('测试辅助函数')]
 class HelpersTest extends TestCase
 {
     /**
