@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin Model
  *
+ * @codeCoverageIgnore
+ *
  * @author Tongle Xu <xutongle@gmail.com>
  */
 trait HasUser
