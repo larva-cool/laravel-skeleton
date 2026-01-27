@@ -41,5 +41,7 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Carbon::setLocale('zh');
         \Illuminate\Http\Resources\Json\JsonResource::withoutWrapping();
         \Illuminate\Database\Eloquent\Model::shouldBeStrict(! $this->app->isProduction());
+        \Laravel\Sanctum\Sanctum::usePersonalAccessTokenModel(\App\Models\PersonalAccessToken::class);
+        \Illuminate\Database\Eloquent\Relations\Relation::enforceMorphMap(config('morph_maps'));
     }
 }

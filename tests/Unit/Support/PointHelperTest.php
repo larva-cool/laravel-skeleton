@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Support;
 
+// Remove the mock settings function and use a different approach
+
 use App\Enum\PointType;
 use App\Exceptions\InsufficientPointsException;
 use App\Models\Point\PointRecord;
@@ -69,7 +71,7 @@ class PointHelperTest extends TestCase
         $this->assertEquals($this->user->id, $trade->user_id);
         $this->assertEquals(100, $trade->points);
         $this->assertEquals($this->user->id, $trade->source_id);
-        $this->assertEquals($this->user->getMorphClass(), $trade->source_type);
+        $this->assertEquals('user', $trade->source_type);
         $this->assertEquals(PointType::TYPE_SIGN_IN, $trade->type);
         $this->assertEquals('签到获得积分', $trade->description);
         $this->assertInstanceOf(Carbon::class, $trade->expired_at);
