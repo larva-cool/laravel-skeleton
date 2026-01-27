@@ -13,6 +13,13 @@ use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
+/**
+ * 望远镜服务提供者
+ *
+ * @codeCoverageIgnore
+ *
+ * @author Tongle Xu <xutongle@msn.com>
+ */
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
     /**
