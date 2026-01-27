@@ -75,8 +75,8 @@ use Illuminate\Support\Facades\Storage;
  * @property UserSocial|null $wechatMp 微信公众号
  * @property UserSocial|null $wechatApp 微信应用
  * @property UserSocial|null $wechatMiniProgram 微信小程序
- * @property \Illuminate\Database\Eloquent\Collection<int,PointTrade> $points 积分交易明细
- * @property \Illuminate\Database\Eloquent\Collection<int,CoinTrade> $coins 金币交易明细
+ * @property Collection<int,PointTrade> $points 积分交易明细
+ * @property Collection<int,CoinTrade> $coins 金币交易明细
  * @property Collection<int,LoginHistory> $loginHistories 登录历史
  *
  * @method Builder active() 查询活动用户
@@ -281,7 +281,7 @@ class User extends Authenticatable
     {
         return $this->socials()->one()->where('provider', SocialProvider::WECHAT_MINI_PROGRAM->value);
     }
-    
+
     /**
      * Get the point trades relation.
      */
