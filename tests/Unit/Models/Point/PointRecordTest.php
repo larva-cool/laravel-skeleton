@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -29,6 +30,7 @@ class PointRecordTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
+    #[TestDox('测试可填充属性')]
     public function test_fillable_attributes()
     {
         $fillable = (new PointRecord)->getFillable();
@@ -39,6 +41,7 @@ class PointRecordTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试属性类型转换')]
     public function test_casts()
     {
         $casts = (new PointRecord)->getCasts();
@@ -53,6 +56,7 @@ class PointRecordTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试删除事件会更新用户积分')]
     public function test_deleted_event_updates_user_points()
     {
         // Mock PointHelper with overload to intercept all static calls
@@ -80,6 +84,7 @@ class PointRecordTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试可清理的过期积分记录')]
     public function test_prunable()
     {
         // Create records with different expired_at dates

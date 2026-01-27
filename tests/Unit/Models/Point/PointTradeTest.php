@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -28,6 +29,7 @@ class PointTradeTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
+    #[TestDox('测试可填充属性')]
     public function test_fillable_attributes()
     {
         $fillable = (new PointTrade)->getFillable();
@@ -38,6 +40,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试隐藏属性')]
     public function test_hidden_attributes()
     {
         $hidden = (new PointTrade)->getHidden();
@@ -46,6 +49,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试属性类型转换')]
     public function test_casts()
     {
         $casts = (new PointTrade)->getCasts();
@@ -62,6 +66,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试追加属性')]
     public function test_appends_attributes()
     {
         $appends = (new PointTrade)->getAppends();
@@ -70,6 +75,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试类型标签访问器')]
     public function test_type_label_accessor()
     {
         $trade = new PointTrade;
@@ -79,6 +85,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试来源关联关系')]
     public function test_source_relation()
     {
         $trade = new PointTrade;
@@ -88,6 +95,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试创建事件会为正积分创建积分记录')]
     public function test_created_event_creates_point_record()
     {
         // Create a PointTrade with positive points
@@ -114,6 +122,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试创建事件不会为负积分创建积分记录')]
     public function test_created_event_does_not_create_point_record_for_negative_points()
     {
         // Create a PointTrade with negative points
@@ -137,6 +146,7 @@ class PointTradeTest extends TestCase
     }
 
     #[Test]
+    #[TestDox('测试创建事件不会为零积分创建积分记录')]
     public function test_created_event_does_not_create_point_record_for_zero_points()
     {
         // Create a PointTrade with zero points

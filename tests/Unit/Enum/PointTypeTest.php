@@ -1,4 +1,9 @@
 <?php
+/**
+ * This is NOT a freeware, use is subject to license terms.
+ */
+
+declare(strict_types=1);
 
 namespace Tests\Unit\Enum;
 
@@ -16,7 +21,7 @@ class PointTypeTest extends TestCase
     public function test_point_type_implements_json_serializable()
     {
         $pointType = PointType::TYPE_SIGN_IN;
-        
+
         $this->assertInstanceOf('JsonSerializable', $pointType);
     }
 
@@ -56,8 +61,10 @@ class PointTypeTest extends TestCase
     {
         $pointType = PointType::TYPE_SIGN_IN;
         $serialized = $pointType->jsonSerialize();
-        
-        $this->assertEquals('sign_in', $serialized);
+
+        $this->assertIsArray($serialized);
+        $this->assertEquals('sign_in', $serialized['value']);
+        $this->assertEquals('签到', $serialized['label']);
     }
 
     #[Test]
@@ -86,7 +93,7 @@ class PointTypeTest extends TestCase
     public function test_point_type_cases_method_returns_all_values()
     {
         $cases = PointType::cases();
-        
+
         $this->assertCount(4, $cases);
         $this->assertEquals(PointType::TYPE_SIGN_IN, $cases[0]);
         $this->assertEquals(PointType::TYPE_INVITE_REGISTER, $cases[1]);
