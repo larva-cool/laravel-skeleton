@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Models\Point;
 
 use App\Enum\PointType;
-use App\Models\Traits;
 use App\Models\Model;
+use App\Models\Traits;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;

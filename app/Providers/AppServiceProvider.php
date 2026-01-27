@@ -26,7 +26,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\SettingManagerService::class, function () {
             return new \App\Services\SettingManagerService;
         });
-        //
+
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

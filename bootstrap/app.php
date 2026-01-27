@@ -19,12 +19,31 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->statefulApi();
+        // $middleware->authenticateSessions();
+        $middleware->throttleWithRedis();
+        $middleware->alias([
+            'abilities' => Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'ability' => Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+        ]);
+        $middleware->web(append: [
+        ]);
+        $middleware->api(prepend: [
+        ]);
+        // 后台中间件组
+        $middleware->appendToGroup('admin', [
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
         // Configure the CSRF token validation middleware.
-        // $middleware->validateCsrfTokens([
-        //     '/admin/*',
-        //     '/api/*',
-        //     '/wechat/*',
-        // ]);
+        $middleware->validateCsrfTokens([
+            '/admin/*',
+            '/api/*',
+            '/wechat/*',
+        ]);
         // Configure the cookie encryption middleware.
         // $middleware->encryptCookies([
         //     //

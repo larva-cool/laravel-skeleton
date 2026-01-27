@@ -11,6 +11,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enum\SocialProvider;
 use App\Enum\UserStatus;
+use App\Models\Coin\CoinTrade;
+use App\Models\Point\PointTrade;
 use App\Models\User\Address;
 use App\Models\User\LoginHistory;
 use App\Models\User\UserExtra;

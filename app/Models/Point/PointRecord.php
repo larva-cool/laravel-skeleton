@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Models\Point;
 
-use App\Models\Traits;
 use App\Models\Model;
+use App\Models\Traits;
 use App\Support\PointHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Prunable;
@@ -30,8 +30,8 @@ use Illuminate\Support\Carbon;
  */
 class PointRecord extends Model
 {
-    use Traits\HasUser;
     use Prunable;
+    use Traits\HasUser;
 
     /**
      * The table associated with the model.

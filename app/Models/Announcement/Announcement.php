@@ -41,7 +41,6 @@ use Illuminate\Support\Carbon;
  */
 class Announcement extends Model
 {
-
     /**
      * The table associated with the model.
      *

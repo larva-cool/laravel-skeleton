@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models\Agreement;
 
+use App\Enum\StatusSwitch;
 use App\Models\Agreement\Agreement;
 use App\Models\Agreement\AgreementRead;
-use App\Enum\StatusSwitch;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;

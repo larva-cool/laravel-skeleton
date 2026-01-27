@@ -80,12 +80,12 @@ class UserObserver implements ShouldHandleEventsAfterCommit
     {
         $user->loginHistories()->delete();
         // $user->signs()->delete();
-        // $user->points()->delete();
-        // $user->coins()->delete();
+        $user->points()->delete();
+        $user->coins()->delete();
         $user->addresses()->delete();
         // $user->collections()->delete();
         // $user->likes()->delete();
-        // $user->socials()->delete();
+        $user->socials()->delete();
         $user->profile->delete();
         $user->extra->delete();
     }
