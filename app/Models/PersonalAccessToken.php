@@ -27,6 +27,7 @@ use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
  * @property Carbon $updated_at 更新时间
  * @property Model $tokenable 令牌所属模型
  *
+ * @codeCoverageIgnore
  * @author Tongle Xu <xutongle@msn.com>
  */
 class PersonalAccessToken extends SanctumPersonalAccessToken
