@@ -25,7 +25,7 @@ use Tests\TestCase;
 class DynamicConfigServiceProviderTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /**
      * 测试 boot 方法 - 正常流程
      */

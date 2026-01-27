@@ -34,11 +34,11 @@ class FileServiceTest extends TestCase
     }
 
     /**
-     * 测试 make 方法
+     * 测试 getInstance 方法
      */
     #[Test]
-    #[TestDox('测试 make 方法')]
-    public function test_make()
+    #[TestDox('测试 getInstance 方法')]
+    public function test_get_instance()
     {
         // 模拟 Storage 门面
         $filesystemMock = $this->createMock(FilesystemAdapter::class);
@@ -46,8 +46,8 @@ class FileServiceTest extends TestCase
             ->with('local')
             ->andReturn($filesystemMock);
 
-        // 测试 make 方法
-        $fileService = FileService::make();
+        // 测试 getInstance 方法
+        $fileService = FileService::getInstance();
         $this->assertInstanceOf(FileService::class, $fileService);
     }
 

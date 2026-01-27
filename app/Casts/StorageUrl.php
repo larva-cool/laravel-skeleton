@@ -32,7 +32,7 @@ class StorageUrl implements CastsAttributes
      */
     public function __construct()
     {
-        $this->fileService = FileService::make();
+        $this->fileService = FileService::getInstance();
     }
 
     /**

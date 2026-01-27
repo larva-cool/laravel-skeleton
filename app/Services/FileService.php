@@ -49,7 +49,7 @@ class FileService
     /**
      * 获取文件服务实例
      */
-    public static function make(): FileService
+    public static function getInstance(): FileService
     {
         return app(\App\Services\FileService::class);
     }

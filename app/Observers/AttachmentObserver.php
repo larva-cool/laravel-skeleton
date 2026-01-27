@@ -39,6 +39,6 @@ class AttachmentObserver
      */
     public function deleted(Attachment $attachment): void
     {
-        FileService::make()->destroy($attachment->file_path);
+        FileService::getInstance()->destroy($attachment->file_path);
     }
 }

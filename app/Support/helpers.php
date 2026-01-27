@@ -124,3 +124,36 @@ if (! function_exists('ip_address')) {
         return is_array($location) ? implode(' ', $location) : $location;
     }
 }
+
+/**
+ * Encodes string into "Base 64 Encoding with URL and Filename Safe Alphabet" (RFC 4648).
+ *
+ * > Note: Base 64 padding `=` may be at the end of the returned string.
+ * > `=` is not transparent to URL encoding.
+ *
+ * @see https://tools.ietf.org/html/rfc4648#page-7
+ *
+ * @param  string  $input  the string to encode.
+ * @return string encoded string.
+ */
+if (! function_exists('base64_urlencode')) {
+    function base64_urlencode(string $input): string
+    {
+        return strtr(base64_encode($input), '+/', '-_');
+    }
+}
+
+/**
+ * Decodes "Base 64 Encoding with URL and Filename Safe Alphabet" (RFC 4648).
+ *
+ * @see https://tools.ietf.org/html/rfc4648#page-7
+ *
+ * @param  string  $input  encoded string.
+ * @return string decoded string.
+ */
+if (! function_exists('base64_decode')) {
+    function base64_urldecode(string $input): string
+    {
+        return base64_decode(strtr($input, '-_', '+/'));
+    }
+}
