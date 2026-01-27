@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Support;
 
-// Remove the mock settings function and use a different approach
-
 use App\Enum\PointType;
 use App\Exceptions\InsufficientPointsException;
 use App\Models\Point\PointRecord;
@@ -32,6 +30,11 @@ class PointHelperTest extends TestCase
     /** @var User */
     protected $user;
 
+    /**
+     * @var User 测试source用户
+     */
+    protected User $source;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -40,6 +43,9 @@ class PointHelperTest extends TestCase
         $this->user = User::factory()->create([
             'available_points' => 0,
         ]);
+
+        // 创建测试source用户
+        $this->source = User::factory()->create();
     }
 
     #[Test]
@@ -61,7 +67,7 @@ class PointHelperTest extends TestCase
         $trade = PointHelper::incr(
             $this->user->id,
             100,
-            $this->user,
+            $this->source,
             PointType::TYPE_SIGN_IN,
             '签到获得积分'
         );
@@ -70,7 +76,7 @@ class PointHelperTest extends TestCase
         $this->assertInstanceOf(PointTrade::class, $trade);
         $this->assertEquals($this->user->id, $trade->user_id);
         $this->assertEquals(100, $trade->points);
-        $this->assertEquals($this->user->id, $trade->source_id);
+        $this->assertEquals($this->source->id, $trade->source_id);
         $this->assertEquals('user', $trade->source_type);
         $this->assertEquals(PointType::TYPE_SIGN_IN, $trade->type);
         $this->assertEquals('签到获得积分', $trade->description);
@@ -96,7 +102,7 @@ class PointHelperTest extends TestCase
         PointHelper::incr(
             $this->user->id,
             100,
-            $this->user,
+            $this->source,
             PointType::TYPE_SIGN_IN,
             '签到获得积分'
         );
@@ -105,7 +111,7 @@ class PointHelperTest extends TestCase
         $result = PointHelper::decr(
             $this->user->id,
             50,
-            $this->user,
+            $this->source,
             PointType::TYPE_SIGN_IN,
             '消费积分'
         );
@@ -142,7 +148,7 @@ class PointHelperTest extends TestCase
         PointHelper::incr(
             $this->user->id,
             30,
-            $this->user,
+            $this->source,
             PointType::TYPE_SIGN_IN,
             '签到获得积分'
         );
@@ -253,7 +259,7 @@ class PointHelperTest extends TestCase
         ]);
 
         // 更新积分总额
-        PointHelper::updatePointTotal($this->user->id);
+        PointHelper::updatePointTotal($this->user->getKey());
 
         // 验证用户积分总额已更新（只计算未过期积分）
         $this->user->refresh();
