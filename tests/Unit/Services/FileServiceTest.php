@@ -25,6 +25,7 @@ use Tests\TestCase;
 class FileServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * 测试 setUp
      */
