@@ -13,6 +13,7 @@ use App\Exceptions\InsufficientCoinsException;
 use App\Models\Coin\CoinTrade;
 use App\Models\User;
 use App\Support\CoinHelper;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
@@ -27,7 +28,7 @@ use Tests\TestCase;
 #[TestDox('测试 CoinHelper 类的金币助手方法')]
 class CoinHelperTest extends TestCase
 {
-    use \Illuminate\Foundation\Testing\RefreshDatabase;
+    use RefreshDatabase;
 
     /**
      * @var User 测试用户

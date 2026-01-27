@@ -258,6 +258,17 @@ class PointHelperTest extends TestCase
             'description' => '测试过期积分记录',
         ]);
 
+//        $class = new \ReflectionClass(PointHelper::class);
+//        $methods = $class->getMethods();
+//
+//        $a = '';
+//        foreach ($methods as $method) {
+//            $a .= '方法名: '.$method->getName().PHP_EOL;
+//            $a .= '访问修饰符: '.$method->isPublic() ? 'public' : ($method->isProtected() ? 'protected' : 'private').PHP_EOL;
+//            $a .= '---------------------'.PHP_EOL;
+//        }
+//        \dd($a);
+
         // 更新积分总额
         PointHelper::updatePointTotal($this->user->getKey());
 
