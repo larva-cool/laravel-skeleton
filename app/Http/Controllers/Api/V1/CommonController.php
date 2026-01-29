@@ -96,7 +96,16 @@ class CommonController extends Controller
      */
     public function dict(DictRequest $request)
     {
-        $items = \App\Models\System\Dict::getDicts($request->type);
+        $options = \App\Models\System\Dict::getOptions($request->type);
+        
+        // 转换为 DictResource 期望的格式
+        $items = [];
+        foreach ($options as $value => $name) {
+            $items[] = [
+                'name' => $name,
+                'value' => $value,
+            ];
+        }
 
         return DictResource::collection($items);
     }
