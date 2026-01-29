@@ -97,7 +97,7 @@ class CommonController extends Controller
     public function dict(DictRequest $request)
     {
         $options = \App\Models\System\Dict::getOptions($request->type);
-        
+
         // 转换为 DictResource 期望的格式
         $items = [];
         foreach ($options as $value => $name) {

@@ -55,7 +55,13 @@ class Dict extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'parent_id', 'name', 'description', 'code', 'status', 'order', 'child_ids',
+        'parent_id',
+        'name',
+        'description',
+        'code',
+        'status',
+        'order',
+        'child_ids',
     ];
 
     /**
@@ -157,7 +163,7 @@ class Dict extends Model
     /**
      * 获取字典数据
      */
-    public static function getOptions(string $code)
+    public static function getOptions(string $code): array
     {
         return Cache::remember(sprintf(CacheKey::DICT_TYPE, $code), 3600, function () use ($code) {
             $dict = self::query()->with(['children'])->whereNull('parent_id')
