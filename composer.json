@@ -18,7 +18,7 @@
         "laravel/pulse": "^1.5",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "openai-php/client": "*",
+        "openai-php/client": "^0.18",
         "overtrue/easy-sms": "^3.2",
         "predis/predis": "^3.3",
         "zhuzhichao/ip-location-zh": "^2.4"
