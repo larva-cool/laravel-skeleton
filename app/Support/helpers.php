@@ -157,3 +157,13 @@ if (! function_exists('base64_decode')) {
         return base64_decode(strtr($input, '-_', '+/'));
     }
 }
+
+/**
+ * 字典选择
+ */
+if (! function_exists('dict_options')) {
+    function dict_options(string $code): array
+    {
+        return \App\Models\System\Dict::getOptions($code);
+    }
+}
