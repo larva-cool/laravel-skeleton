@@ -11,6 +11,7 @@ namespace Tests\Unit\Http\Requests\Api\V1\Common;
 use App\Http\Requests\Api\V1\Common\AreaRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -23,6 +24,7 @@ class AreaRequestTest extends TestCase
      * 测试验证规则
      */
     #[Test]
+    #[TestDox('测试验证规则')]
     public function test_rules()
     {
         $request = new AreaRequest;
@@ -43,6 +45,7 @@ class AreaRequestTest extends TestCase
      * 测试规则包含 exists 验证
      */
     #[Test]
+    #[TestDox('测试规则包含 exists 验证')]
     public function test_rules_contain_exists_validation()
     {
         $request = new AreaRequest;

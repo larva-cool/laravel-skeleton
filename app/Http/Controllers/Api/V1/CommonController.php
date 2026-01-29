@@ -11,6 +11,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Common\AreaRequest;
 use App\Http\Requests\Api\V1\Common\DictRequest;
+use App\Http\Requests\Api\V1\Common\MailCaptchaRequest;
+use App\Http\Requests\Api\V1\Common\SmsCaptchaRequest;
 use App\Http\Resources\Api\V1\DictResource;
 use Illuminate\Http\JsonResponse;
 
@@ -69,6 +71,25 @@ class CommonController extends Controller
         return response()->json($settings);
     }
 
+    /**
+     * 短信验证码
+     */
+    public function smsCaptcha(SmsCaptchaRequest $request): JsonResponse
+    {
+        $verifyCode = \App\Services\SmsCaptchaService::make($request->phone, $request->ip(), $request->scene);
+
+        return response()->json($verifyCode->send());
+    }
+
+    /**
+     * 邮件验证码
+     */
+    public function mailCaptcha(MailCaptchaRequest $request): JsonResponse
+    {
+        $verifyCode = \App\Services\MailCaptchaService::make($request->email, $request->ip());
+
+        return response()->json($verifyCode->send());
+    }
 
     /**
      * 字典接口

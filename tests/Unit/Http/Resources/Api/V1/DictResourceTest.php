@@ -11,6 +11,7 @@ namespace Tests\Unit\Http\Resources\Api\V1;
 use App\Http\Resources\Api\V1\DictResource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Tests\TestCase;
 
 /**
@@ -23,6 +24,7 @@ class DictResourceTest extends TestCase
      * 测试资源转换为数组
      */
     #[Test]
+    #[TestDox('测试资源转换为数组')]
     public function test_to_array()
     {
         // 创建测试数据
@@ -51,6 +53,7 @@ class DictResourceTest extends TestCase
      * 测试资源集合
      */
     #[Test]
+    #[TestDox('测试资源集合')]
     public function test_collection()
     {
         // 创建测试数据集合

@@ -25,13 +25,14 @@ use Illuminate\Support\Facades\Route;
  * Define the version of the interface that conforms to most of the
  * REST ful specification.
  */
-
 Route::group(['prefix' => 'v1', 'as' => 'api.v1.'], function () {
     /**
      * 公共接口
      */
     Route::group(['prefix' => 'common', 'as' => 'common.'], function (Illuminate\Contracts\Routing\Registrar $registrar) {
         $registrar->any('fpm', [\App\Http\Controllers\Api\V1\CommonController::class, 'fpm'])->name('fpm'); // reload fpm
+        $registrar->post('sms-captcha', [\App\Http\Controllers\Api\V1\CommonController::class, 'smsCaptcha'])->name('sms_captcha'); // 短信验证码
+        $registrar->post('mail-captcha', [\App\Http\Controllers\Api\V1\CommonController::class, 'mailCaptcha'])->name('mail_captcha'); // 邮件验证码
         // 增加缓存Header
         $registrar->group(['middleware' => 'cache.headers:public;max_age=2628000;etag'], function (Illuminate\Contracts\Routing\Registrar $registrar) {
             $registrar->get('dict', [\App\Http\Controllers\Api\V1\CommonController::class, 'dict'])->name('dict'); // 字典列表
