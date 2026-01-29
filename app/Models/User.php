@@ -80,7 +80,7 @@ use Illuminate\Support\Facades\Storage;
  * @property Collection<int,PointTrade> $points 积分交易明细
  * @property Collection<int,CoinTrade> $coins 金币交易明细
  * @property Collection<int,LoginHistory> $loginHistories 登录历史
- *
+ * @property \Illuminate\Database\Eloquent\Collection<int,User> $invites 邀请用户
  * @method Builder active() 查询活动用户
  * @method Builder keyword(string $keyword) 根据关键词搜索
  *
@@ -322,6 +322,14 @@ class User extends Authenticatable
     public function loginHistories(): MorphMany
     {
         return $this->morphMany(LoginHistory::class, 'user')->latest('login_at ');
+    }
+
+    /**
+     * Get the invite's relation.
+     */
+    public function invites(): HasManyThrough|User
+    {
+        return $this->hasManyThrough(User::class, UserExtra::class, 'referrer_id', 'id', 'id', 'user_id');
     }
 
     /**
