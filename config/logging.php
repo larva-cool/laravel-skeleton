@@ -79,6 +79,26 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'kafka' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => \Monolog\Handler\SocketHandler::class,
+            'handler_with' => [
+                'connectionString' => 'tcp://'.env('LOGSTASH_HOST', '192.168.0.116').':'.env('LOGSTASH_PORT', 8601),
+            ],
+            'formatter' => \Monolog\Formatter\JsonFormatter::class,
+        ],
+
+        'logstash' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => \Monolog\Handler\SocketHandler::class,
+            'handler_with' => [
+                'connectionString' => 'tcp://'.env('LOGSTASH_HOST', '192.168.0.116').':'.env('LOGSTASH_PORT', 8601),
+            ],
+            'formatter' => \Monolog\Formatter\JsonFormatter::class,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
@@ -98,16 +118,6 @@ return [
                 'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
-        ],
-
-        'logstash' => [
-            'driver' => 'monolog',
-            'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => \Monolog\Handler\SocketHandler::class,
-            'handler_with' => [
-                'connectionString' => 'tcp://'.env('LOGSTASH_HOST', '192.168.0.116').':'.env('LOGSTASH_PORT', 8601),
-            ],
-            'formatter' => \Monolog\Formatter\JsonFormatter::class,
         ],
 
         'stderr' => [
