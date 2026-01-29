@@ -10,6 +10,7 @@ namespace Tests\Unit\Models\Traits;
 
 use App\Models\Traits\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
+use Laravel\Sanctum\PersonalAccessToken;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -39,13 +40,23 @@ class TestModel
      */
     public function createBaseToken(string $name, array $abilities = ['*'], $expiresAt = null): NewAccessToken
     {
-        $tokenMock = Mockery::mock();
-        $tokenMock->id = 1;
-        $tokenMock->expires_at = $expiresAt;
+        // Create a mock for PersonalAccessToken that handles setAttribute and getAttribute
+        $tokenMock = Mockery::mock(PersonalAccessToken::class);
+        $tokenMock->shouldReceive('setAttribute')->andReturnNull();
+        $tokenMock->shouldReceive('getAttribute')->with('id')->andReturn(1);
+        $tokenMock->shouldReceive('getAttribute')->with('expires_at')->andReturn($expiresAt);
+        $tokenMock->shouldReceive('__get')->with('id')->andReturn(1);
+        $tokenMock->shouldReceive('__get')->with('expires_at')->andReturn($expiresAt);
 
-        $newTokenMock = Mockery::mock(NewAccessToken::class);
-        $newTokenMock->accessToken = $tokenMock;
-        $newTokenMock->plainTextToken = 'test-token';
+        // Create a simple implementation of NewAccessToken
+        $newTokenMock = new class($tokenMock, 'test-token') extends NewAccessToken
+        {
+            public function __construct($accessToken, $plainTextToken)
+            {
+                $this->accessToken = $accessToken;
+                $this->plainTextToken = $plainTextToken;
+            }
+        };
 
         return $newTokenMock;
     }
