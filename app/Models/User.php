@@ -323,7 +323,7 @@ class User extends Authenticatable
      */
     public function loginHistories(): MorphMany
     {
-        return $this->morphMany(LoginHistory::class, 'user')->latest('login_at ');
+        return $this->morphMany(LoginHistory::class, 'user')->latest('login_at');
     }
 
     /**
