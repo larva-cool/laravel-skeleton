@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Traits;
+namespace Tests\Unit\Models\Traits;
 
 use App\Models\Traits\HasSettingsProperty;
 use Illuminate\Database\Eloquent\Model;
