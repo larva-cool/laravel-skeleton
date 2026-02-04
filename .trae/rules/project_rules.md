@@ -6,7 +6,7 @@
 ## 技术栈
 - **框架**：Laravel 12.x
 - **PHP 版本**：8.2+
-- **后台前端**：Layui 2.13.2+
+- **后台**：Filament 5.x
 - **前台前端**：Tailwind CSS（默认 CSS 框架）
 - **数据库**：支持多种数据库（MySQL、MongoDB）
 - **缓存**：Redis
