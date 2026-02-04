@@ -6,6 +6,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Unit\Support;
+
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
