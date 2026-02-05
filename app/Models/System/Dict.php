@@ -108,7 +108,7 @@ class Dict extends Model
                     'child_ids' => static::getChildIds($model->parent_id),
                 ]);
             }
-            Cache::forget(sprintf(CacheKey::DICT_TYPE, $model->code));
+            Cache::forget(CacheKey::key(CacheKey::DICT_TYPE, $model->code));
         });
     }
 
@@ -165,7 +165,7 @@ class Dict extends Model
      */
     public static function getOptions(string $code): array
     {
-        return Cache::remember(sprintf(CacheKey::DICT_TYPE, $code), 3600, function () use ($code) {
+        return Cache::remember(CacheKey::key(CacheKey::DICT_TYPE, $code), 3600, function () use ($code) {
             $dict = self::query()->with(['children'])->whereNull('parent_id')
                 ->where('code', '=', $code)
                 ->where('status', StatusSwitch::ENABLED->value)
