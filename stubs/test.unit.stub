@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * This is NOT a freeware, use is subject to license terms.
+ */
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use PHPUnit\Framework\TestCase;
+
+class {{ class }} extends TestCase
+{
+    /**
+     * A basic unit test example.
+     */
+    public function test_example(): void
+    {
+        $this->assertTrue(true);
+    }
+}

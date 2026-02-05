@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * This is NOT a freeware, use is subject to license terms.
+ */
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Handle the incoming request.
+     */
+    public function __invoke(Request $request)
+    {
+        //
+    }
+}

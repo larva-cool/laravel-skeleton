@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * This is NOT a freeware, use is subject to license terms.
+ */
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+class {{ class }}
+{
+    /**
+     * Create a new class instance.
+     */
+    public function __construct()
+    {
+        //
+    }
+}
