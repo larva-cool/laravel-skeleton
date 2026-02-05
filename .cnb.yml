@@ -20,8 +20,8 @@ $:
         # 环境启动后需要执行的命令
         - name: ls
           script: ls -al
-  # 推送代码时需要执行的命令
-  push:
+  # 推送标签时需要执行的命令
+  tag_push:
     - services:
         - docker
       docker:
