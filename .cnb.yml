@@ -34,7 +34,7 @@ $:
           image: cnbcool/codewiki:latest
           settings:
             git_doc_dir: /data/codewiki/${CNB_REPO_SLUG}
-master:
+  # 推送代码时需要执行的命令
   push:
     - imports:
         # 引用密钥仓库中的特定文件
